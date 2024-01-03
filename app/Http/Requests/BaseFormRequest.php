@@ -25,7 +25,7 @@ class BaseFormRequest extends FormRequest
 
     protected function failedValidation(Validator $validator)
     {
-        if($this->expectsJson()){
+        if ($this->expectsJson()) {
             $msgErrors = (new ValidationException($validator))->errors();
 
             throw new HttpResponseException(
@@ -33,6 +33,7 @@ class BaseFormRequest extends FormRequest
                 JsonResponse::HTTP_UNPROCESSABLE_ENTITY
             );
         }
+
         parent::failedValidation($validator);
     }
 }
