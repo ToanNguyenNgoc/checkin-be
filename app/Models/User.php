@@ -43,7 +43,7 @@ use Spatie\Permission\Traits\HasRoles;
  *
  * @package App\Models
  */
-class User extends Model
+class User extends BaseModel
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
