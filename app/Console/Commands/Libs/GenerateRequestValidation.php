@@ -51,7 +51,7 @@ class GenerateRequestValidation extends Command
         }
 
         $this->generateRequest();
-        $this->info("{$this->requestName} generated successfully!");
+        $this->info("{$this->requestName}Request generated successfully!");
         return true;
     }
 
@@ -61,7 +61,7 @@ class GenerateRequestValidation extends Command
 
         if (!empty($this->options->pathName)) {
             $requestPath = "{$requestPath}/{$this->options->pathName}";
-            $requestNameSpace = "\\{$this->options->pathName}";
+            $requestNameSpace = "\\".str_replace('/', '\\', $this->options->pathName);
         } else {
             $requestNameSpace = "";
         }
