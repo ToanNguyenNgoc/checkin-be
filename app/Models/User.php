@@ -1,27 +1,54 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ */
+
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+/**
+ * Class User
+ *
+ * @property int $id
+ * @property bool $is_admin
+ * @property Carbon|null $expire_date
+ * @property string $name
+ * @property string $username
+ * @property string $email
+ * @property Carbon|null $email_verified_at
+ * @property string $password
+ * @property string $type
+ * @property string|null $gate
+ * @property string|null $avatar_path
+ * @property string|null $note
+ * @property string $status
+ * @property int|null $created_by
+ * @property int|null $updated_by
+ * @property string|null $remember_token
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ *
+ * @property User|null $user
+ * @property Collection|User[] $users
+ *
+ * @package App\Models
+ */
+class User extends Model
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $table = 'users';
+    protected $guard_name = 'api';
 
     /**
      * The attributes that should be hidden for serialization.
@@ -39,7 +66,43 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+        'is_admin' => 'bool',
+		'expire_date' => 'datetime',
+		'email_verified_at' => 'datetime',
+		'created_by' => 'int',
+		'updated_by' => 'int'
     ];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'is_admin',
+		'expire_date',
+		'name',
+		'username',
+		'email',
+		'email_verified_at',
+		'password',
+		'type',
+		'gate',
+		'avatar_path',
+		'note',
+		'status',
+		'created_by',
+		'updated_by',
+		'remember_token'
+    ];
+
+	public function user()
+	{
+		return $this->belongsTo(User::class, 'updated_by');
+	}
+
+	public function users()
+	{
+		return $this->hasMany(User::class, 'updated_by');
+	}
 }

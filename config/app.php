@@ -56,7 +56,6 @@ return [
     */
 
     'url'           => env('APP_URL', 'http://localhost'),
-    'api_domain'    => env('API_DOMAIN', 'http://localhost'),
     'asset_url'     => env('ASSET_URL'),
 
     /*
@@ -168,6 +167,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
     ])->toArray(),
 
     /*
