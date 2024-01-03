@@ -19,7 +19,7 @@ Route::middleware(['guest'])->group(function() {
         echo "Connected!";
     });
 
-    // Route::post('/login', [App\Http\Controllers\Api\UserController::class, 'login']);
+    Route::post('/login', [App\Http\Controllers\Api\UserController::class, 'login']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
