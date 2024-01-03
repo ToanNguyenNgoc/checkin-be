@@ -11,7 +11,7 @@ class --RequestName-- extends BaseFormRequest
      */
     public function authorize(): bool
     {
-        return --RequestAuthorize--;
+        return false;
     }
 
     /**

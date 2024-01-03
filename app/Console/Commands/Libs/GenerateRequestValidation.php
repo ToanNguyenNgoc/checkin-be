@@ -17,14 +17,14 @@ class GenerateRequestValidation extends Command
      *
      * @var string
      */
-    protected $signature = 'generate:request {requestName} {--pathName=} {--isAuthorize}';
+    protected $signature = 'generate:request {requestName} {--pathName=}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Generate request {requestName} {--pathName=} {--isAuthorize}';
+    protected $description = 'Generate request {requestName} {--pathName=}';
 
     /**
      * Execute the console command.
@@ -82,7 +82,6 @@ class GenerateRequestValidation extends Command
 
             $content = str_replace('--RequestPath--', $requestNameSpace, $content);
             $content = str_replace('--RequestName--', $requestName, $content);
-            $content = str_replace('--RequestAuthorize--', $this->options->isAuthorize, $content);
 
             /* Write new controller file */
             File::put($desRequestFile, $content);
