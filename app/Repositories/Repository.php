@@ -2,6 +2,7 @@
 namespace App\Repositories;
 
 use App\Repositories\RepositoryInterface;
+use Illuminate\Support\Facades\Schema;
 
 abstract class Repository implements RepositoryInterface
 {
@@ -12,9 +13,11 @@ abstract class Repository implements RepositoryInterface
         $this->setModel();
     }
 
-    /**
-     * Set model
-     */
+    public function getAll()
+    {
+        return $this->model->get();
+    }
+
     public function setModel()
     {
         $this->model = app()->make(
@@ -29,24 +32,14 @@ abstract class Repository implements RepositoryInterface
         return $this->model->getFillable();
     }
 
-    /**
-     * Get a instance of model
-     */
     public function getInstanceModel()
     {
         return $this->model;
     }
 
-    public function getAll()
+    public function getModelTable()
     {
-        return $this->model->get();
-    }
-
-    public function getLimitList($limit = 15)
-    {
-        return $this->model->where('status', '!=', $this->model::STATUS_DELETED)
-                            ->orderBy('created_at', 'ASC')
-                            ->paginate($limit);
+        return $this->getInstanceModel()->getTable();
     }
 
     public function getItem($id, $status = null)
@@ -60,19 +53,42 @@ abstract class Repository implements RepositoryInterface
             if (is_array($status)) {
                 $query = $query->whereIn('status', $status);
             } else {
-                $query = $query->where(['status' => $status]);
+                $query = $query->where([
+                    'status' => $status
+                ]);
             }
         }
 
         $item = $query->first();
-
         return $item;
     }
 
-    /**
-     * GET list item not limit with status
-     */
-    public function getItems($status = null, $orderByColumn = 'updated_at', $orderByDesc = true)
+    public function getList($orderByColumn = 'updated_at', $orderByDesc = true, $limit = 0, $paginate = 0)
+    {
+        $query = $this->model;
+
+        if (Schema::hasColumn($this->getModelTable(), 'status')) {
+            $query = $query->where('status', '!=', $this->model::STATUS_DELETED);
+        }
+
+        if ($orderByDesc) {
+            $query = $query->orderBy($orderByColumn, 'desc');
+        } else {
+            $query = $query->orderBy($orderByColumn, 'asc');
+        }
+
+        if ($limit > 0) {
+            $query = $query->limit($limit);
+        }
+
+        if ($paginate > 0) {
+            return $query->paginate($paginate);
+        }
+
+        return $query->get();
+    }
+
+    public function getItems($status = null, $orderByColumn = 'updated_at', $orderByDesc = true, $limit = 0, $paginate = 0)
     {
         $query = $this->model->where('status', '!=', $this->model::STATUS_DELETED);
 
@@ -90,12 +106,26 @@ abstract class Repository implements RepositoryInterface
             $query = $query->orderBy($orderByColumn, 'asc');
         }
 
+        if ($limit > 0) {
+            $query = $query->limit($limit);
+        }
+
+        if ($paginate > 0) {
+            return $query->paginate($paginate);
+        }
+
         return $query->get();
     }
 
     public function find($id)
     {
-        return $this->model->where(['id' => $id])->first();
+        if (Schema::hasColumn($this->getModelTable(), 'status')) {
+            return $this->getItem($id);
+        } else {
+            return $this->model->where([
+                'id' => $id
+            ])->first();
+        }
     }
 
     public function create($attributes = [])
@@ -138,15 +168,6 @@ abstract class Repository implements RepositoryInterface
         }
 
         return false;
-    }
-
-    /**
-     * Get instance user
-     */
-    public function userAdmin()
-    {
-        $user = auth('admin')->user();
-        return $user;
     }
 
     public function user()

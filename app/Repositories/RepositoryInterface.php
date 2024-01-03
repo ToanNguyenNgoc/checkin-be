@@ -9,16 +9,21 @@ interface RepositoryInterface
      */
     public function getAll();
 
-    /**
-     * Get all
-     * @param $limit
-     * @return mixed
-     */
-    public function getLimitList($limit = 15);
+    public function setModel();
 
-    public function getItem($id);
+    public function getModel();
 
     public function getFillable();
+
+    public function getInstanceModel();
+
+    public function getModelTable();
+
+    public function getItem($id, $status = null);
+
+    public function getItems($status = null, $orderByColumn = 'updated_at', $orderByDesc = true, $limit = 0, $paginate = 0);
+
+    public function getList($orderByColumn = 'updated_at', $orderByDesc = true, $limit = 0, $paginate = 0);
 
     /**
      * Get one
@@ -57,6 +62,5 @@ interface RepositoryInterface
      */
     public function delete($id);
 
-    public function userAdmin();
     public function user();
 }
