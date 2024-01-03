@@ -15,5 +15,9 @@ class BaseResource extends JsonResource
     public function toArray(Request $request): array
     {
         return parent::toArray($request);
+
+        // DateTime::make('updated_at')->sortable()->readOnly()->serializeUsing(
+        //     static fn($value) => Carbon::parse($value)->format(config('app.date_format'))
+        // )
     }
 }
