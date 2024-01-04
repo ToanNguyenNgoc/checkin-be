@@ -19,5 +19,15 @@ class BaseResource extends JsonResource
         // DateTime::make('updated_at')->sortable()->readOnly()->serializeUsing(
         //     static fn($value) => Carbon::parse($value)->format(config('app.date_format'))
         // )
+
+        // return array_merge(
+        //     parent::toArray($request),
+        //     [
+        //         'clients_count' => $this->whenLoaded('clients', function () {
+        //             return $this->clients->count();
+        //         }),
+        //         'clients' => ClientResource::collection($this->whenLoaded('clients')),
+        //     ]
+        // );
     }
 }
