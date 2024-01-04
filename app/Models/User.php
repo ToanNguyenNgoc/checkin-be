@@ -15,6 +15,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\Contracts\Activity;
+use Spatie\Activitylog\LogOptions;
+// use Spatie\Permission\Traits\HasPermissions;
 
 /**
  * Class User
@@ -45,7 +49,7 @@ use Spatie\Permission\Traits\HasRoles;
  */
 class User extends BaseModel
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, LogsActivity;
 
     protected $table = 'users';
     protected $guard_name = 'api';
@@ -66,11 +70,11 @@ class User extends BaseModel
      * @var array<string, string>
      */
     protected $casts = [
-        'is_admin' => 'bool',
-		'expire_date' => 'datetime',
+        'is_admin'          => 'bool',
+		'expire_date'       => 'datetime',
 		'email_verified_at' => 'datetime',
-		'created_by' => 'int',
-		'updated_by' => 'int'
+		'created_by'        => 'int',
+		'updated_by'        => 'int'
     ];
 
     /**
@@ -96,6 +100,20 @@ class User extends BaseModel
 		'remember_token'
     ];
 
+    protected $logAttributes = [
+        'expire_date',
+        'name',
+		'username',
+		'email',
+        'type',
+		'gate',
+		'avatar_path',
+        'note',
+		'status',
+		'created_by',
+		'updated_by',
+    ];
+
 	public function user()
 	{
 		return $this->belongsTo(User::class, 'updated_by');
@@ -105,4 +123,18 @@ class User extends BaseModel
 	{
 		return $this->hasMany(User::class, 'updated_by');
 	}
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly($this->logAttributes ?? [])
+            ->logOnlyDirty()
+            ->useLogName(parent::getTableInfo($this->table)['log_name']);
+    }
+
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        $activity->description = $eventName;
+        // $activity->description = "activity.logs.message.{$eventName}";
+    }
 }

@@ -40,6 +40,13 @@ class BaseModel extends Model
         self::STATUS_DELETED    => 'Deleted',
     ];
 
+    protected $tables = [
+        'users' => [
+            'log_name' => 'users',
+
+        ],
+    ];
+
     static public function getStatues()
     {
         return self::STATUES;
@@ -54,4 +61,14 @@ class BaseModel extends Model
     {
         return empty($this->id) ? true : false;
     }
+
+    protected function getTableInfo($table)
+    {
+        return $this->tables[$table];
+    }
+
+    // public function getActivitylogOptions(): LogOptions
+    // {
+    //     return LogOptions::defaults();
+    // }
 }
