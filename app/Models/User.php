@@ -101,7 +101,7 @@ class User extends BaseModel implements Authenticatable
 		'created_by',
 		'updated_by',
 		'remember_token',
-        'last_login_at'
+		'last_login_at'
     ];
 
     protected $logAttributes = [
@@ -118,6 +118,8 @@ class User extends BaseModel implements Authenticatable
 		'updated_by',
     ];
 
+    /* RELATIONSHIP */
+
 	public function user()
 	{
 		return $this->belongsTo(User::class, 'updated_by');
@@ -127,6 +129,8 @@ class User extends BaseModel implements Authenticatable
 	{
 		return $this->hasMany(User::class, 'updated_by');
 	}
+
+    /* ACTIVITY LOG */
 
     public function getActivitylogOptions(): LogOptions
     {

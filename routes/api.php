@@ -23,15 +23,24 @@ Route::middleware(['guest'])->group(function() {
 });
 
 Route::middleware('role:admin')->get('/admin', function () {
-    // Route::post('/store', [App\Http\Controllers\Api\UserController::class, 'store']);
-});
 
-Route::middleware('permission:create users')->get('/create', function () {
-    // Route::post('/store', [App\Http\Controllers\Api\UserController::class, 'store']);
 });
 
 Route::group(['middleware' => ['auth:sanctum']], function() {
-    Route::get('/user', [App\Http\Controllers\Api\UserController::class, 'user']);
-    Route::get('/users', [App\Http\Controllers\Api\UserController::class, 'index']);
+    /* USER */
+    Route::get('/self', [App\Http\Controllers\Api\UserController::class, 'user']);
     Route::get('/user/{id}', [App\Http\Controllers\Api\UserController::class, 'detail']);
+    // Route::get('/users', [App\Http\Controllers\Api\UserController::class, 'index']);
+
+    /* ROLE */
+    Route::get('/roles', [App\Http\Controllers\Api\RoleController::class, 'index']);
+    Route::post('/role/store', [App\Http\Controllers\Api\RoleController::class, 'store'])->middleware('permission:user_role_management:create');
+    Route::post('/role/assign', [App\Http\Controllers\Api\RoleController::class, 'assign'])->middleware('permission:assign role');
+
+    /* PERMISSION */
+    Route::get('/permissions/current-user', [App\Http\Controllers\Api\PermissionController::class, 'getListFromCurrentUser'])->middleware('permission:list role');
+    Route::get('/permissions/role/{roleId}', [App\Http\Controllers\Api\PermissionController::class, 'getListFromRole'])->middleware('permission:list role');
+    Route::post('/permission/store', [App\Http\Controllers\Api\PermissionController::class, 'store'])->middleware('permission:create permission');
+    Route::post('/permission/assign', [App\Http\Controllers\Api\PermissionController::class, 'assignToRole'])->middleware('permission:assign permission to role');
+    Route::delete('/permission/revoke/{userId}', [App\Http\Controllers\Api\PermissionController::class, 'revokePermissionFromRole'])->middleware('permission:revoke permission from role');
 });

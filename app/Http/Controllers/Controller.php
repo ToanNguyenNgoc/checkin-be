@@ -8,7 +8,7 @@ use Illuminate\Routing\Controller as BaseController;
 use App\Http\Requests\Api\DeleteRequest;
 use App\Http\Resources\BaseCollection;
 use App\Http\Resources\BaseResource;
-// use Illuminate\Http\Request;
+use Illuminate\Http\Request;
 use App\Traits\ApiResponser;
 
 class Controller extends BaseController
@@ -17,7 +17,7 @@ class Controller extends BaseController
 
     public $service;
 
-    public function index()
+    public function index(Request $request)
     {
         $list = $this->service->getList();
 

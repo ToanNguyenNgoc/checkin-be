@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Helpers\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -35,7 +36,7 @@ class BaseResource extends JsonResource
         // );
     }
 
-    public function finalizeResult($request)
+    protected function finalizeResult($request)
     {
         if (!empty($this->attrOnly)) {
             return $this->attrOnly;
@@ -52,7 +53,12 @@ class BaseResource extends JsonResource
                 }
             }
 
-            return $result;
+            $dateTimes = [
+                'created_at' => Helper::getDateTimeFormat($this->created_at),
+                'updated_at' => Helper::getDateTimeFormat($this->updated_at),
+            ];
+
+            return array_merge($result, $dateTimes);
         }
     }
 }

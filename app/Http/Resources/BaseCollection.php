@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Helpers\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -24,7 +25,7 @@ class BaseCollection extends ResourceCollection
         ];
     }
 
-    public function finalizeResult($request)
+    /* public function finalizeResult($request)
     {
         if (!empty($this->attrOnly)) {
             return $this->attrOnly;
@@ -41,7 +42,12 @@ class BaseCollection extends ResourceCollection
                 }
             }
 
-            return $result;
+            $dateTimes = [
+                'created_at' => Helper::getDateTimeFormat($this->created_at),
+                'updated_at' => Helper::getDateTimeFormat($this->updated_at),
+            ];
+
+            return array_merge($result, $dateTimes);
         }
-    }
+    } */
 }

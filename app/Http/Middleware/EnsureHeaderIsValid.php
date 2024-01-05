@@ -20,7 +20,7 @@ class EnsureHeaderIsValid
         if ($this->validateHeader($request)) {
             return $next($request);
         }
-        
+
         throw new InvalidHeaderException;
     }
 
@@ -45,22 +45,6 @@ class EnsureHeaderIsValid
 
                 return false;
             }
-        }
-
-        if ($request->hasHeader('User-Agent') && $request->hasHeader('Accept-Encoding')) {
-            if (\in_array($request->header('User-Agent'), ['SendGrid Event API'])) {
-                if ($request->accepts(['application/json'])) {
-                    return true;
-
-                    // if ($request->hasHeader('x-twilio-email-event-webhook-signature')) {
-                    //     if ($request->header('x-twilio-email-event-webhook-signature') == "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEX05/XWN6Ggw2H/smOWDUWNsu/jSQf9ClZ/d+elc9RXdRqUTpJF2QtPjvqqftfkPBlWbVkEcwSWNM1wfFjoizqQ==") {
-                    //         return true;
-                    //     }
-                    // }
-                }
-            }
-
-            return false;
         }
 
         abort(404);
