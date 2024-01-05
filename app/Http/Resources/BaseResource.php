@@ -7,6 +7,10 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class BaseResource extends JsonResource
 {
+    protected $attrOnly;
+    protected $attrMores;
+    protected $attrExcepts;
+
     /**
      * Transform the resource into an array.
      *
@@ -29,5 +33,26 @@ class BaseResource extends JsonResource
         //         'clients' => ClientResource::collection($this->whenLoaded('clients')),
         //     ]
         // );
+    }
+
+    public function finalizeResult($request)
+    {
+        if (!empty($this->attrOnly)) {
+            return $this->attrOnly;
+        } else {
+            $result = parent::toArray($request);
+
+            if (!empty($this->attrMores)) {
+                $result = array_merge(parent::toArray($request), $this->attrMores);
+            }
+
+            if (!empty($this->attrExcepts)) {
+                foreach ($this->attrExcepts as $key) {
+                    unset($result[$key]);
+                }
+            }
+
+            return $result;
+        }
     }
 }

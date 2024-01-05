@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources--ResourcePath--;
+namespace App\Http\Resources\User;
 
 use App\Http\Resources\BaseResource;
 use Illuminate\Http\Request;
 
-class --ResourceName-- extends BaseResource
+class UserResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
@@ -14,18 +14,6 @@ class --ResourceName-- extends BaseResource
      */
     public function toArray(Request $request): array
     {
-        $this->attrOnly = [
-
-        ];
-
-        $this->attrMores = [
-
-        ];
-
-        $this->attrExcepts = [
-
-        ];
-
         return $this->finalizeResult($request);
     }
 }

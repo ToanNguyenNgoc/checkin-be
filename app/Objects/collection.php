@@ -14,13 +14,21 @@ class --CollectionName-- extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
-        $attrMores = [
+        $this->attrOnly = [
+
+        ];
+
+        $this->attrMores = [
+
+        ];
+
+        $this->attrExcepts = [
 
         ];
 
         return [
             'count'         => $this->collection->count(),
-            'collection'    => array_merge(parent::toArray($request), $attrMores)
+            'collection'    => $this->finalizeResult($request)
         ];
     }
 }
