@@ -57,7 +57,7 @@ class GenerateObject extends Command
         $this->generateService();
         $this->generateRepository();
 
-        $this->info("Resources for model {$this->modelName} generated successfully!");
+        $this->info("Objects model {$this->modelName} generated successfully!");
         return true;
     }
 
