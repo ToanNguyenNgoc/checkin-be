@@ -6,11 +6,9 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use App\Services\BaseService;
-use App\Models\User;
 
 class AuthService extends BaseService
 {
@@ -21,13 +19,12 @@ class AuthService extends BaseService
 
     public function authenticate()
     {
-        // $this->ensureIsNotRateLimited((object)$this->attributes);
+        $this->ensureIsNotRateLimited((object)$this->attributes);
 
         $credentials['email'] = trim($this->attributes['email']);
         $credentials['password'] = trim($this->attributes['password']);
-        // $credentials['status'] = User::STATUS_ACTIVE;
 
-        if (!Auth::guard('api')->attempt($credentials)) {
+        if (!Auth::attempt($credentials)) {
             RateLimiter::hit($this->throttleKey());
             return false;
         }
