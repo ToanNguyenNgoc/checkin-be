@@ -13,18 +13,8 @@ class UserController extends Controller
         $this->service = $service;
     }
 
-    public function index()
-    {
-
-    }
-
-    public function detail($id)
-    {
-
-    }
-
     public function login(LoginRequest $request)
     {
-
+        
     }
 }
