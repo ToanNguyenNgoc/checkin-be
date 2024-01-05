@@ -10,8 +10,9 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+// use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Auth\Authenticatable as AuthenticatableTrait;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
@@ -19,6 +20,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\Contracts\Activity;
 use Spatie\Activitylog\LogOptions;
 // use Spatie\Permission\Traits\HasPermissions;
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 /**
  * Class User
@@ -47,9 +49,9 @@ use Spatie\Activitylog\LogOptions;
  *
  * @package App\Models
  */
-class User extends BaseModel
+class User extends BaseModel implements Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, LogsActivity;
+    use AuthenticatableTrait, HasApiTokens, HasFactory, Notifiable, HasRoles, LogsActivity;
 
     protected $table = 'users';
     protected $guard_name = 'api';
@@ -74,7 +76,8 @@ class User extends BaseModel
 		'expire_date'       => 'datetime',
 		'email_verified_at' => 'datetime',
 		'created_by'        => 'int',
-		'updated_by'        => 'int'
+		'updated_by'        => 'int',
+		'last_login_at'     => 'datetime',
     ];
 
     /**
@@ -97,7 +100,8 @@ class User extends BaseModel
 		'status',
 		'created_by',
 		'updated_by',
-		'remember_token'
+		'remember_token',
+        'last_login_at'
     ];
 
     protected $logAttributes = [

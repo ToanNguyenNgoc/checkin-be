@@ -19,9 +19,19 @@ Route::middleware(['guest'])->group(function() {
         echo "Connected!";
     });
 
-    Route::post('/login', [App\Http\Controllers\Api\UserController::class, 'login']);
+    Route::post('/login', [App\Http\Controllers\Api\AuthController::class, 'login']);
 });
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('role:admin')->get('/admin', function () {
+    // Route::post('/store', [App\Http\Controllers\Api\UserController::class, 'store']);
+});
+
+Route::middleware('permission:create users')->get('/create', function () {
+    // Route::post('/store', [App\Http\Controllers\Api\UserController::class, 'store']);
+});
+
+Route::group(['middleware' => ['auth:sanctum']], function() {
+    Route::get('/user', [App\Http\Controllers\Api\UserController::class, 'user']);
+    Route::get('/users', [App\Http\Controllers\Api\UserController::class, 'index']);
+    Route::get('/user/{id}', [App\Http\Controllers\Api\UserController::class, 'detail']);
 });

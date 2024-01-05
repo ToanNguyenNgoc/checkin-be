@@ -47,6 +47,8 @@ return new class extends Migration
             $table->foreignId('updated_by')
                 ->nullable();
             $table->rememberToken();
+            $table->dateTime('last_login_at')
+                ->nullable();
             $table->timestamps();
 
             /* RELATIONSHIP */

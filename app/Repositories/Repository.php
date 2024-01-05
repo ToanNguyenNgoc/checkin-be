@@ -172,7 +172,7 @@ abstract class Repository implements RepositoryInterface
 
     public function user()
     {
-        $user = auth()->user();
+        $user = auth('api')->user();
         return $user;
     }
 }

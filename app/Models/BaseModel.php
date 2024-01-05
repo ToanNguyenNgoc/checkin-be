@@ -42,6 +42,13 @@ class BaseModel extends Model
         self::STATUS_DELETED    => 'Deleted',
     ];
 
+    const STATUES_VALID = [
+        self::STATUS_NEW        => 'New',
+        self::STATUS_ACTIVE     => 'Active',
+        self::STATUS_INACTIVE   => 'In-Active',
+        self::STATUS_DELETED    => 'Deleted',
+    ];
+
     protected $tables = [
         'users' => [
             'log_name' => 'users',
@@ -57,6 +64,11 @@ class BaseModel extends Model
     public function getStatusText()
     {
         return self::STATUES[$this->status];
+    }
+
+    static public function getStatuesValid()
+    {
+        return self::STATUES_VALID;
     }
 
     public function isNew()

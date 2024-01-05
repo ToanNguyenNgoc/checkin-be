@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Services\Api\UserService;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\LoginRequest;
+use App\Http\Resources\User\UserResource;
 
 class UserController extends Controller
 {
@@ -13,8 +13,8 @@ class UserController extends Controller
         $this->service = $service;
     }
 
-    public function login(LoginRequest $request)
+    public function user()
     {
-        
+        return $this->responseSuccess(UserResource::make(auth()->user()), null);
     }
 }
