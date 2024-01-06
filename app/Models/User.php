@@ -54,6 +54,20 @@ class User extends Authenticatable
     protected $table = 'users';
     protected $guard_name = 'api';
 
+    const TYPE_SYSTEM_ADMIN     = 'SYSTEM_ADMIN';
+    const TYPE_ADMIN            = 'ADMIN';
+    const TYPE_USER_WEB         = 'WEB';
+    const TYPE_DEVICE_MOBILE    = 'MOBILE';
+    const TYPE_DEVICE_PC        = 'PC';
+
+    const TYPES = [
+        self::TYPE_SYSTEM_ADMIN     => 'System Admin',
+        self::TYPE_ADMIN            => 'Admin',
+        self::TYPE_USER_WEB         => 'Web',
+        self::TYPE_DEVICE_MOBILE    => 'Mobile',
+        self::TYPE_DEVICE_PC        => 'PC',
+    ];
+
     const STATUS_NEW        = 'NEW';
     const STATUS_ACTIVE     = 'ACTIVE';
     const STATUS_INACTIVE   = 'INACTIVE';
@@ -162,6 +176,16 @@ class User extends Authenticatable
     static public function getStatuesValid()
     {
         return self::STATUES_VALID;
+    }
+
+    static public function getTypes()
+    {
+        return self::TYPES;
+    }
+
+    public function getTypeText()
+    {
+        return self::TYPES[$this->status];
     }
 
     public function isNew()
