@@ -22,6 +22,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
         Permission::create(['name' => 'user_role_management:view']);
         Permission::create(['name' => 'user_role_management:create']);
+        Permission::create(['name' => 'user_role_management:assign-roles']);
         Permission::create(['name' => 'user_role_management:assign-permissions']);
         Permission::create(['name' => 'user_role_management:revoke-permissions']);
 
