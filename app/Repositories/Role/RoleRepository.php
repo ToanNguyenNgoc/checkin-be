@@ -9,4 +9,11 @@ class RoleRepository extends Repository implements RoleRepositoryInterface
     {
         return \App\Models\Role::class;
     }
+
+    public function getCollectionByIds($ids)
+    {
+        $query = $this->model->where('enable', true);
+        $query = $query->whereIn('id', $ids);
+        return $query->get();
+    }
 }

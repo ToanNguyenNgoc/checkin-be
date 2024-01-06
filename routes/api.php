@@ -33,9 +33,9 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     // Route::get('/users', [App\Http\Controllers\Api\UserController::class, 'index']);
 
     /* ROLE */
-    Route::get('/roles', [App\Http\Controllers\Api\RoleController::class, 'index']);
+    Route::get('/roles', [App\Http\Controllers\Api\RoleController::class, 'index'])->middleware('permission:user_role_management:view');
     Route::post('/role/store', [App\Http\Controllers\Api\RoleController::class, 'store'])->middleware('permission:user_role_management:create');
-    Route::post('/role/assign', [App\Http\Controllers\Api\RoleController::class, 'assign'])->middleware('permission:assign role');
+    Route::post('/role/assign', [App\Http\Controllers\Api\RoleController::class, 'assign'])->middleware('permission:user_role_management:assign-roles');
 
     /* PERMISSION */
     Route::get('/permissions/current-user', [App\Http\Controllers\Api\PermissionController::class, 'getListFromCurrentUser'])->middleware('permission:list role');

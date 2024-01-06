@@ -117,10 +117,10 @@ abstract class Repository implements RepositoryInterface
         return $query->get();
     }
 
-    public function find($id)
+    public function find($id, $status = null)
     {
         if (Schema::hasColumn($this->getModelTable(), 'status')) {
-            return $this->getItem($id);
+            return $this->getItem($id, $status);
         } else {
             return $this->model->where([
                 'id' => $id
