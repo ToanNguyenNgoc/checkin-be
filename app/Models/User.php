@@ -10,9 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-// use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Auth\Authenticatable as AuthenticatableTrait;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
@@ -49,12 +47,31 @@ use Spatie\Activitylog\LogOptions;
  *
  * @package App\Models
  */
-class User extends BaseModel implements Authenticatable
+class User extends Authenticatable
 {
-    use AuthenticatableTrait, HasApiTokens, HasFactory, Notifiable, HasRoles, LogsActivity;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, LogsActivity;
 
     protected $table = 'users';
     protected $guard_name = 'api';
+
+    const STATUS_NEW        = 'NEW';
+    const STATUS_ACTIVE     = 'ACTIVE';
+    const STATUS_INACTIVE   = 'INACTIVE';
+    const STATUS_DELETED    = 'DELETED';
+
+    const STATUES = [
+        self::STATUS_NEW        => 'New',
+        self::STATUS_ACTIVE     => 'Active',
+        self::STATUS_INACTIVE   => 'In-Active',
+        self::STATUS_DELETED    => 'Deleted',
+    ];
+
+    const STATUES_VALID = [
+        self::STATUS_NEW        => 'New',
+        self::STATUS_ACTIVE     => 'Active',
+        self::STATUS_INACTIVE   => 'In-Active',
+        self::STATUS_DELETED    => 'Deleted',
+    ];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -130,6 +147,28 @@ class User extends BaseModel implements Authenticatable
 		return $this->hasMany(User::class, 'updated_by');
 	}
 
+    /* CONST FUNCTIONS */
+
+    static public function getStatues()
+    {
+        return self::STATUES;
+    }
+
+    public function getStatusText()
+    {
+        return self::STATUES[$this->status];
+    }
+
+    static public function getStatuesValid()
+    {
+        return self::STATUES_VALID;
+    }
+
+    public function isNew()
+    {
+        return empty($this->id) ? true : false;
+    }
+
     /* ACTIVITY LOG */
 
     public function getActivitylogOptions(): LogOptions
@@ -137,7 +176,8 @@ class User extends BaseModel implements Authenticatable
         return LogOptions::defaults()
             ->logOnly($this->logAttributes ?? [])
             ->logOnlyDirty()
-            ->useLogName(parent::getTableInfo($this->table)['log_name']);
+            ->useLogName(parent::getTable());
+            // ->useLogName(parent::getTableInfo($this->table)['log_name']);
     }
 
     public function tapActivity(Activity $activity, string $eventName)

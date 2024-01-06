@@ -6,6 +6,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -37,24 +38,32 @@ class Handler extends ExceptionHandler
         });
 
         $this->renderable(function(MethodNotAllowedHttpException $e, Request $request){
-            if($request->expectsJson()){
-                $msgError = ['message' => '405 The GET method is not supported for this route. Supported methods: POST.'];
+            if ($request->expectsJson()) {
+                $msgError = ['message' => 'The GET method is not supported for this route. Supported methods: POST.'];
                 return $this->responseError($msgError, 405);
             }
         });
 
         /* 401 message */
         $this->renderable(function(AuthenticationException $e, Request $request){
-            if($request->expectsJson()){
+            if ($request->expectsJson()) {
                 $msgError = ['message' => '401 This action is unauthorized'];
                 return $this->responseError($msgError, 401);
             }
         });
 
+        /* 403 message */
+        $this->renderable(function(UnauthorizedException $e, Request $request){
+            if ($request->expectsJson()) {
+                $msgError = ['message' => '403 This action is unauthorized'];
+                return $this->responseError($msgError, 403);
+            }
+        });
+
         /* 400 message */
         $this->renderable(function(NotFoundHttpException $e, Request $request){
-            if($request->expectsJson()){
-                $msgError = ['message' => '400 Page Not Found'];
+            if ($request->expectsJson()) {
+                $msgError = ['message' => 'Page Not Found'];
                 return $this->responseError($msgError, 400);
             }
         });
@@ -62,23 +71,23 @@ class Handler extends ExceptionHandler
         /* 404 message */
         $this->renderable(function(NotFoundHttpException $e, Request $request){
             if($request->expectsJson()){
-                $msgError = ['message' => '404 Page Not Found'];
+                $msgError = ['message' => 'Page Not Found'];
                 return $this->responseError($msgError, 404);
             }
         });
 
         /* 429 message */
         $this->renderable(function(ThrottleRequestsException $e, Request $request){
-            if($request->expectsJson()){
-                $msgError = ['message' => '429 Too Many Attempts'];
+            if ($request->expectsJson()) {
+                $msgError = ['message' => 'Too Many Attempts'];
                 return $this->responseError($msgError, 429);
             }
         });
 
         /* 500 message */
         $this->renderable(function(QueryException $e, Request $request){
-            if($request->expectsJson()){
-                $msgError = ['message' => '500 Internal Server Error'];
+            if ($request->expectsJson()) {
+                $msgError = ['message' => 'Internal Server Error'];
                 return $this->responseError($msgError, 500);
             }
         });

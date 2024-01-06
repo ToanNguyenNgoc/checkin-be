@@ -9,7 +9,6 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 
 /**
  * Class Site
@@ -46,7 +45,6 @@ class BaseModel extends Model
         self::STATUS_NEW        => 'New',
         self::STATUS_ACTIVE     => 'Active',
         self::STATUS_INACTIVE   => 'In-Active',
-        self::STATUS_DELETED    => 'Deleted',
     ];
 
     protected $tables = [
