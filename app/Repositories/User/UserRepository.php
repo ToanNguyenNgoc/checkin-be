@@ -9,4 +9,11 @@ class UserRepository extends Repository implements UserRepositoryInterface
     {
         return \App\Models\User::class;
     }
+
+    public function checkValidUserStatusByEmail($email)
+    {
+        $query = $this->model->whereIn('status', $this->model->getStatuesValid());
+        $query = $query->where('email', $email);
+        return $query->first();
+    }
 }

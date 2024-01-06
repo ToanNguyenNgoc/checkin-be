@@ -20,16 +20,18 @@ class RolesAndPermissionsSeeder extends Seeder
 
         /* PERMISSIONS */
 
-        Permission::create(['name' => 'user_role_management:view']);
-        Permission::create(['name' => 'user_role_management:create']);
-        Permission::create(['name' => 'user_role_management:assign-roles']);
-        Permission::create(['name' => 'user_role_management:assign-permissions']);
-        Permission::create(['name' => 'user_role_management:revoke-permissions']);
+        Permission::create(['name' => 'user_role:view']);
+        Permission::create(['name' => 'user_role:create']);
+        Permission::create(['name' => 'user_role:assign-to-user']);
 
-        Permission::create(['name' => 'user_managment:view']);
-        Permission::create(['name' => 'user_managment:create']);
-        Permission::create(['name' => 'user_managment:update']);
-        Permission::create(['name' => 'user_managment:delete']);
+        Permission::create(['name' => 'user_permission:view']);
+        Permission::create(['name' => 'user_permission:assign-to-role']);
+        Permission::create(['name' => 'user_permission:revoke-from-role']);
+
+        Permission::create(['name' => 'user:view']);
+        Permission::create(['name' => 'user:create']);
+        Permission::create(['name' => 'user:update']);
+        Permission::create(['name' => 'user:delete']);
 
         Permission::create(['name' => 'system:view-history']);
         Permission::create(['name' => 'system:restore-default']);
@@ -104,10 +106,12 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'card:delete']);
 
         $permissionAdminToExclude = [
-            'user_role_management:view',
-            'user_role_management:create',
-            'user_role_management:assign-permissions',
-            'user_role_management:revoke-permissions'
+            'user_role:view',
+            'user_role:create',
+            'user_role:assign-to-user',
+            'user_permission:view',
+            'user_permission:assign-to-role',
+            'user_permission:revoke-from-role'
         ];
 
         $permissions = Permission::all()->filter(function ($permission) use ($permissionAdminToExclude) {

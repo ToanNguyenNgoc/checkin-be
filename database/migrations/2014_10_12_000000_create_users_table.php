@@ -25,8 +25,7 @@ return new class extends Migration
                 ->nullable(false)
                 ->unique();
             $table->string('email')
-                ->nullable(false)
-                ->unique();
+                ->nullable(false);
             $table->timestamp('email_verified_at')
                 ->nullable();
             $table->string('password');
