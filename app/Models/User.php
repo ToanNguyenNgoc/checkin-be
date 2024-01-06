@@ -54,30 +54,30 @@ class User extends Authenticatable
     protected $table = 'users';
     protected $guard_name = 'api';
 
-    const TYPE_SYSTEM_ADMIN     = 'SYSTEM_ADMIN';
-    const TYPE_ADMIN            = 'ADMIN';
-    const TYPE_USER_WEB         = 'WEB';
-    const TYPE_DEVICE_MOBILE    = 'MOBILE';
-    const TYPE_DEVICE_PC        = 'PC';
+    const TYPE_SYSTEM_ADMIN         = 'SYSTEM_ADMIN';
+    const TYPE_ADMIN                = 'ADMIN';
+    const TYPE_USER_APP             = 'USER_APP';
+    const TYPE_DEVICE_MOBILE        = 'DEVICE_MOBILE';
+    const TYPE_DEVICE_PC            = 'DEVICE_PC';
 
     const TYPES = [
         self::TYPE_SYSTEM_ADMIN     => 'System Admin',
         self::TYPE_ADMIN            => 'Admin',
-        self::TYPE_USER_WEB         => 'Web',
+        self::TYPE_USER_APP         => 'App',
         self::TYPE_DEVICE_MOBILE    => 'Mobile',
         self::TYPE_DEVICE_PC        => 'PC',
     ];
 
-    const STATUS_NEW        = 'NEW';
-    const STATUS_ACTIVE     = 'ACTIVE';
-    const STATUS_INACTIVE   = 'INACTIVE';
-    const STATUS_DELETED    = 'DELETED';
+    const STATUS_NEW                = 'NEW';
+    const STATUS_ACTIVE             = 'ACTIVE';
+    const STATUS_INACTIVE           = 'INACTIVE';
+    const STATUS_DELETED            = 'DELETED';
 
     const STATUES = [
-        self::STATUS_NEW        => 'New',
-        self::STATUS_ACTIVE     => 'Active',
-        self::STATUS_INACTIVE   => 'In-Active',
-        self::STATUS_DELETED    => 'Deleted',
+        self::STATUS_NEW            => 'New',
+        self::STATUS_ACTIVE         => 'Active',
+        self::STATUS_INACTIVE       => 'In-Active',
+        self::STATUS_DELETED        => 'Deleted',
     ];
 
     const STATUES_VALID = [

@@ -17,6 +17,7 @@ class SystemAdminSeeder extends Seeder
     public function run()
     {
         $user = User::create([
+            'is_admin'              => true,
             'name'                  => 'System Admin',
             'username'              => 'sysadmin',
             'email'                 => 'sysadmin@delfi.vn',

@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            /* $table->enum('admin_level', [0, 1, 2, 3])
+                ->default(0); */
             $table->boolean('is_admin')
                 ->default(false)
                 ->nullable(false);
