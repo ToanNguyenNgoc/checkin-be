@@ -18,10 +18,10 @@ class RoleController extends Controller
         $this->service->attributes = $request->all();
 
         if ($model = $this->service->create()) {
-            return $this->responseSuccess($model, null);
+            return $this->responseSuccess($model, trans('_response.success.store'));
         } else {
             return $this->responseError([
-                'message' => 'Error'
+                'message' => trans('_response.failed.400')
             ], 400);
         }
     }
@@ -31,10 +31,10 @@ class RoleController extends Controller
         $this->service->attributes = $request->all();
 
         if ($this->service->assign()) {
-            return $this->responseSuccess(null, null);
+            return $this->responseSuccess(null, trans('_response.success.assign'));
         } else {
             return $this->responseError([
-                'message' => 'Error'
+                'message' => trans('_response.failed.400')
             ], 400);
         }
     }

@@ -6,4 +6,6 @@ use App\Repositories\RepositoryInterface;
 interface RoleRepositoryInterface extends RepositoryInterface
 {
     public function getCollectionByIds($ids);
+
+    public function getDetailByName($name);
 }

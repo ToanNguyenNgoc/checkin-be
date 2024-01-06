@@ -7,6 +7,12 @@ class PermissionRepository extends Repository implements PermissionRepositoryInt
 {
     public function getModel()
     {
-        return \App\Models\Permission::class;
+        return \Spatie\Permission\Models\Permission::class;
+    }
+
+    public function getCollectionByIds($ids)
+    {
+        $query = $this->model->whereIn('id', $ids);
+        return $query->get();
     }
 }

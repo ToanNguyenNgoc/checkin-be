@@ -29,12 +29,21 @@ class AuthService extends BaseService
             return false;
         }
 
-        $this->repo->user()->update([
-            'last_login_at' => Carbon::now()->toDateTimeString(),
-        ]);
+        if ($this->repo->checkValidUserStatusByEmail($credentials['email'])) {
+            $this->repo->user()->update([
+                'last_login_at' => now()->toDateTimeString(),
+            ]);
 
-        RateLimiter::clear($this->throttleKey());
-        return true;
+            RateLimiter::clear($this->throttleKey());
+            return true;
+        }
+
+        Auth::logout();
+        return false;
+
+        /* throw ValidationException::withMessages([
+            'email' => ['Invalid user status for login.'],
+        ]); */
     }
 
     /**

@@ -22,9 +22,11 @@ class Controller extends BaseController
         $list = $this->service->getList();
 
         if (!empty($list)) {
-            return $this->responseSuccess(new BaseCollection($list), null);
+            return $this->responseSuccess(new BaseCollection($list), trans('_response.success.index'));
         } else {
-            return $this->responseError(null);
+            return $this->responseError([
+                'message' => trans('_response.failed.400')
+            ], 400);
         }
     }
 
@@ -33,9 +35,11 @@ class Controller extends BaseController
         $model = $this->service->find($id);
 
         if (!empty($model)) {
-            return $this->responseSuccess(new BaseResource($model), null);
+            return $this->responseSuccess(new BaseResource($model), trans('_response.success.detail'));
         } else {
-            return $this->responseError(null);
+            return $this->responseError([
+                'message' => trans('_response.failed.400')
+            ], 400);
         }
     }
 
