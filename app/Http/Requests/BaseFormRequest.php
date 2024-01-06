@@ -20,7 +20,7 @@ class BaseFormRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     protected function failedValidation(Validator $validator)
