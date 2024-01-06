@@ -43,6 +43,7 @@ class Kernel extends HttpKernel
             'throttle:100,1',
             \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\SetLocale::class,
             \App\Http\Middleware\EnsureHeaderIsValid::class,
         ],
     ];
