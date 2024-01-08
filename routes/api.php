@@ -2,6 +2,12 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\TestController;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\CompanyController;
+use App\Http\Controllers\Api\RoleController;
+use App\Http\Controllers\Api\PermissionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +25,7 @@ Route::middleware(['guest'])->group(function() {
         echo "Connected!";
     });
 
-    Route::post('/login', [App\Http\Controllers\Api\AuthController::class, 'login']);
+    Route::post('/login', [AuthController::class, 'login']);
 });
 
 Route::middleware('role:admin')->get('/admin', function () {
@@ -27,22 +33,28 @@ Route::middleware('role:admin')->get('/admin', function () {
 });
 
 Route::group(['middleware' => ['auth:sanctum']], function() {
-    Route::get('/test', [App\Http\Controllers\Api\TestController::class, 'testRedis']);
+    Route::get('/test', [TestController::class, 'testRedis']);
 
     /* USER */
-    Route::get('/self', [App\Http\Controllers\Api\UserController::class, 'user']);
-    Route::get('/user/{id}', [App\Http\Controllers\Api\UserController::class, 'detail'])->middleware('permission:user:view');;
-    Route::get('/users', [App\Http\Controllers\Api\UserController::class, 'index'])->middleware('permission:user:view');;
+    Route::get('/self', [UserController::class, 'user']);
+    Route::get('/users', [UserController::class, 'index'])->middleware('permission:user:view');
+    Route::get('/user/{id}', [UserController::class, 'detail'])->middleware('permission:user:view');
+
+    /* COMPANY */
+    Route::get('/companys', [CompanyController::class, 'index'])->middleware('permission:company:view');
+    Route::get('/company/{id}', [CompanyController::class, 'detail'])->middleware('permission:company:view');
+    Route::post('/company/store', [CompanyController::class, 'store'])->middleware('permission:company:create');
+    Route::delete('/company/delete/{id}', [CompanyController::class, 'remove'])->middleware('permission:company:delete');
 
     /* ROLE */
-    Route::get('/roles', [App\Http\Controllers\Api\RoleController::class, 'index'])->middleware('permission:user_role:view');
-    Route::post('/role/store', [App\Http\Controllers\Api\RoleController::class, 'store'])->middleware('permission:user_role:create');
-    Route::post('/role/assign', [App\Http\Controllers\Api\RoleController::class, 'assign'])->middleware('permission:user_role:assign-to-user');
+    Route::get('/roles', [RoleController::class, 'index'])->middleware('permission:user_role:view');
+    Route::post('/role/store', [RoleController::class, 'store'])->middleware('permission:user_role:create');
+    Route::post('/role/assign', [RoleController::class, 'assign'])->middleware('permission:user_role:assign-to-user');
 
     /* PERMISSION */
-    Route::get('/permissions', [App\Http\Controllers\Api\PermissionController::class, 'index'])->middleware('permission:user_permission:view');
-    Route::get('/permissions/self', [App\Http\Controllers\Api\PermissionController::class, 'getListFromCurrentUser'])->middleware('permission:user_permission:view');
-    Route::get('/permissions/role/{roleId}', [App\Http\Controllers\Api\PermissionController::class, 'getListFromRole'])->middleware('permission:user_permission:view');
-    Route::post('/permission/assign', [App\Http\Controllers\Api\PermissionController::class, 'assignToRole'])->middleware('permission:user_permission:assign-to-role');
-    Route::delete('/permission/revoke/{roleId}', [App\Http\Controllers\Api\PermissionController::class, 'revokeFromRole'])->middleware('permission:user_permission:revoke-from-role');
+    Route::get('/permissions', [PermissionController::class, 'index'])->middleware('permission:user_permission:view');
+    Route::get('/permissions/self', [PermissionController::class, 'getListFromCurrentUser'])->middleware('permission:user_permission:view');
+    Route::get('/permissions/role/{roleId}', [PermissionController::class, 'getListFromRole'])->middleware('permission:user_permission:view');
+    Route::post('/permission/assign', [PermissionController::class, 'assignToRole'])->middleware('permission:user_permission:assign-to-role');
+    Route::delete('/permission/revoke/{roleId}', [PermissionController::class, 'revokeFromRole'])->middleware('permission:user_permission:revoke-from-role');
 });

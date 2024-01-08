@@ -38,7 +38,7 @@ class BaseService
             $this->attributes['orderBy'] ?? 'updated_at',
             $this->attributes['orderDesc'] ?? true,
             $this->attributes['limit'] ?? null,
-            $this->attributes['paginate'] ?? null
+            $this->attributes['paginate'] ?? 50
         );
     }
 
@@ -53,11 +53,11 @@ class BaseService
             }
         }
 
-        if (count($attrMores)) {
+        if (isset($attrMores) && count($attrMores)) {
             $attributes = array_merge($attributes, $attrMores);
         }
 
-        if ($model = $this->repo->upsert($attributes, $attributes['id'])) {
+        if ($model = $this->repo->upsert($attributes, isset($attributes['id']) ? $attributes['id'] : null)) {
             return $model;
         }
 
@@ -66,7 +66,7 @@ class BaseService
 
     public function store()
     {
-        $id = (int)($this->attributes['id']);
+        $id = isset($this->attributes['id']) ? (int)($this->attributes['id']) : null;
 
         if (empty($id)) {
             $model = $this->repo->create($this->attributes);
