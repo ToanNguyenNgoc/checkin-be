@@ -10,4 +10,15 @@ class UserService extends BaseService
     {
         $this->repo = new UserRepository();
     }
+
+    public function getDetail($id)
+    {
+        $user = $this->repo->find($id);
+
+        if ($user) {
+            return $user;
+        }
+
+        return null;
+    }
 }

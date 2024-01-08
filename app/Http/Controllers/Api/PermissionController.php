@@ -34,7 +34,7 @@ class PermissionController extends Controller
     {
         $permissions = $this->service->getListFromRole($roleId);
 
-        if (is_array($permissions) && count($permissions)) {
+        if ($permissions) {
             return $this->responseSuccess(
                 $permissions,
                 trans('_response.success.index')

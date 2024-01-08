@@ -39,7 +39,7 @@ class PermissionService extends BaseService
         $role = $this->role()->repo->find($roleId);
 
         if ($role) {
-            return $role->permissions->pluck('name')->toArray();
+            return $role->getPermissionNames();
         }
 
         return [];

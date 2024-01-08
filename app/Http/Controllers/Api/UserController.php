@@ -17,4 +17,15 @@ class UserController extends Controller
     {
         return $this->responseSuccess(UserResource::make(auth()->user()), null);
     }
+
+    public function detail($id)
+    {
+        if ($model = $this->service->getDetail($id)) {
+            return $this->responseSuccess(UserResource::make($model), trans('_response.success.detail'));
+        } else {
+            return $this->responseError([
+                'message' => trans('_response.failed.400')
+            ], 400);
+        }
+    }
 }
