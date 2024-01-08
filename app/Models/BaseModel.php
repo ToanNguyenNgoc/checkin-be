@@ -29,10 +29,10 @@ use Illuminate\Database\Eloquent\Model;
  */
 class BaseModel extends Model
 {
-    const STATUS_NEW        = 'NEW';
-    const STATUS_ACTIVE     = 'ACTIVE';
-    const STATUS_INACTIVE   = 'INACTIVE';
-    const STATUS_DELETED    = 'DELETED';
+    const STATUS_NEW            = 'NEW';
+    const STATUS_ACTIVE         = 'ACTIVE';
+    const STATUS_INACTIVE       = 'INACTIVE';
+    const STATUS_DELETED        = 'DELETED';
 
     const STATUES = [
         self::STATUS_NEW        => 'New',

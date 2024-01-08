@@ -32,9 +32,9 @@ class ActivityLog extends BaseModel
 	protected $table = 'activity_log';
 
 	protected $casts = [
-		'subject_id' => 'int',
-		'causer_id' => 'int',
-		'properties' => 'json'
+		'subject_id'    => 'int',
+		'causer_id'     => 'int',
+		'properties'    => 'json'
 	];
 
 	protected $fillable = [

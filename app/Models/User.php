@@ -81,8 +81,8 @@ class User extends Authenticatable
     ];
 
     const STATUES_VALID = [
-        self::STATUS_NEW        => 'New',
-        self::STATUS_ACTIVE     => 'Active',
+        self::STATUS_NEW            => 'New',
+        self::STATUS_ACTIVE         => 'Active',
     ];
 
     /**
