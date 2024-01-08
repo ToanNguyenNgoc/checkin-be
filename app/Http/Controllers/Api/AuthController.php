@@ -16,11 +16,12 @@ class AuthController extends Controller
     public function login(LoginRequest $request)
     {
         $this->service->attributes = $request->all();
+        $result = $this->service->authenticate();
 
-        if ($this->service->authenticate()) {
-            return $this->responseSuccess(LoginResource::make(auth('api')->user()), trans('_auth.success'));
+        if ($result['auth']) {
+            return $this->responseSuccess(LoginResource::make(auth('api')->user()), $result['msg']);
         } else {
-            return $this->responseError(__('auth.failed'), 401);
+            return $this->responseError($result['msg'], 401);
         }
     }
 }

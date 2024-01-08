@@ -6,12 +6,16 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Carbon;
+use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 use App\Services\BaseService;
 
 class AuthService extends BaseService
 {
+    protected $seconds;
+    protected $maxAttempts = 5;
+    protected $decaySeconds = 1;
+
     public function __construct()
     {
         $this->repo = new UserRepository();
@@ -19,14 +23,25 @@ class AuthService extends BaseService
 
     public function authenticate()
     {
-        $this->ensureIsNotRateLimited((object)$this->attributes);
+        if (!$this->ensureIsNotRateLimited((object)$this->attributes)) {
+            return [
+                'auth'  => false,
+                'msg'   => trans('_auth.throttle', [
+                    'seconds'   => $this->seconds,
+                    'minutes'   => ceil($this->seconds/$this->decaySeconds),
+                ])
+            ];
+        }
 
         $credentials['email'] = trim($this->attributes['email']);
         $credentials['password'] = trim($this->attributes['password']);
 
         if (!Auth::attempt($credentials)) {
             RateLimiter::hit($this->throttleKey());
-            return false;
+            return [
+                'auth'  => false,
+                'msg'   => __('auth.failed')
+            ];
         }
 
         if ($this->repo->checkValidUserStatusByEmail($credentials['email'])) {
@@ -35,11 +50,17 @@ class AuthService extends BaseService
             ]);
 
             RateLimiter::clear($this->throttleKey());
-            return true;
+            return [
+                'auth'  => true,
+                'msg'   => trans('_auth.success')
+            ];
         }
 
         Auth::logout();
-        return false;
+        return [
+            'auth'  => false,
+            'msg'   => __('auth.failed')
+        ];
 
         /* throw ValidationException::withMessages([
             'email' => ['Invalid user status for login.'],
@@ -55,19 +76,19 @@ class AuthService extends BaseService
      */
     public function ensureIsNotRateLimited($attributes)
     {
-        if (!RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
-            return;
+        if (!RateLimiter::tooManyAttempts($this->throttleKey(), $this->maxAttempts)) {
+            return true;
         }
 
-        event(new Lockout($attributes));
-        $seconds = RateLimiter::availableIn($this->throttleKey());
+        $this->seconds = RateLimiter::availableIn($this->throttleKey());
+        return false;
 
         throw ValidationException::withMessages([
-                'email' => trans('auth.throttle', [
-                'seconds' => $seconds,
-                'minutes' => ceil($seconds / 60),
+                'email'     => trans('_auth.throttle', [
+                'seconds'   => $this->seconds,
+                'minutes'   => ceil($this->seconds/$this->decaySeconds),
             ]),
-        ]);
+        ])->status(Response::HTTP_TOO_MANY_REQUESTS);
     }
 
     /**
