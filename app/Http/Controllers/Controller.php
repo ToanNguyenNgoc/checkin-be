@@ -19,9 +19,9 @@ class Controller extends BaseController
 
     public function index(Request $request)
     {
-        $list = $this->service->getList();
+        $this->service->attributes = $request->all();
 
-        if (!empty($list)) {
+        if (!empty($list = $this->service->getList())) {
             return $this->responseSuccess(new BaseCollection($list), trans('_response.success.index'));
         } else {
             return $this->responseError([

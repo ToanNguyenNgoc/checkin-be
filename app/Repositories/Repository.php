@@ -63,7 +63,7 @@ abstract class Repository implements RepositoryInterface
         return $item;
     }
 
-    public function getList($orderByColumn = 'updated_at', $orderByDesc = true, $limit = 0, $paginate = 0)
+    public function getList($orderByColumn = 'updated_at', $orderByDesc = true, $limit = 0, $paginate = 50)
     {
         $query = $this->model;
 
@@ -77,18 +77,18 @@ abstract class Repository implements RepositoryInterface
             $query = $query->orderBy($orderByColumn, 'asc');
         }
 
-        if ($limit > 0) {
+        if ($limit) {
             $query = $query->limit($limit);
         }
 
-        if ($paginate > 0) {
+        if ($paginate) {
             return $query->paginate($paginate);
         }
 
         return $query->get();
     }
 
-    public function getItems($status = null, $orderByColumn = 'updated_at', $orderByDesc = true, $limit = 0, $paginate = 0)
+    public function getItems($status = null, $orderByColumn = 'updated_at', $orderByDesc = true, $limit = 0, $paginate = 50)
     {
         $query = $this->model->where('status', '!=', $this->model::STATUS_DELETED);
 

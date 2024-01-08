@@ -2,9 +2,9 @@
 
 namespace App\Http\Resources;
 
-use App\Helpers\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Exception;
 
 class BaseCollection extends ResourceCollection
 {
@@ -22,7 +22,34 @@ class BaseCollection extends ResourceCollection
         return [
             'count'         => $this->collection->count(),
             'collection'    => parent::toArray($request),
+            'pagination'    => $this->getPaginateMeta(),
         ];
+    }
+
+    public function getPaginateMeta()
+    {
+        try {
+            $pagination = [
+                'links' => [
+                    'first'         => $this->url(1),
+                    'last'          => $this->url($this->lastPage()),
+                    'prev'          => $this->previousPageUrl(),
+                    'next'          => $this->nextPageUrl(),
+                ],
+                'meta' => [
+                    'current_page'  => $this->currentPage(),
+                    'from'          => $this->firstItem(),
+                    'to'            => $this->lastItem(),
+                    'per_page'      => $this->perPage(),
+                    'total'         => $this->total(),
+                    'last_page'     => $this->lastPage(),
+                ]
+            ];
+
+            return $pagination;
+        } catch (Exception $e) {
+            return [];
+        }
     }
 
     /* public function finalizeResult($request)

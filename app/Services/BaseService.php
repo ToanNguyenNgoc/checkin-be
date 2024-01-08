@@ -34,7 +34,12 @@ class BaseService
 
     public function getList()
     {
-        return $this->repo->getList();
+        return $this->repo->getList(
+            $this->attributes['orderBy'] ?? 'updated_at',
+            $this->attributes['orderDesc'] ?? true,
+            $this->attributes['limit'] ?? null,
+            $this->attributes['paginate'] ?? null
+        );
     }
 
     public function storeAs($attrForms, $attrMores = [])
