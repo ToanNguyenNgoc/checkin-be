@@ -20,7 +20,6 @@ class LoginResource extends BaseResource
             'name'          => $this->name,
             'email'         => $this->email,
             'type'          => $this->type,
-            'gate'          => $this->gate,
             'access_token'  => $this->createToken($this->username)->plainTextToken,
             'token_type'    => 'Bearer'
         ];
