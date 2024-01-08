@@ -5,6 +5,7 @@ use App\Services\Api\RoleService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Role\AssignRequest;
 use App\Http\Requests\Api\Role\StoreRequest;
+use App\Http\Resources\Role\RoleResource;
 
 class RoleController extends Controller
 {
@@ -17,8 +18,8 @@ class RoleController extends Controller
     {
         $this->service->attributes = $request->all();
 
-        if ($model = $this->service->create()) {
-            return $this->responseSuccess($model, trans('_response.success.store'));
+        if ($model = $this->service->store()) {
+            return $this->responseSuccess(new RoleResource($model), trans('_response.success.store'));
         } else {
             return $this->responseError([
                 'message' => trans('_response.failed.400')

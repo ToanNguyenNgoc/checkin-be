@@ -13,7 +13,7 @@ class UserService extends BaseService
 
     public function getDetail($id)
     {
-        $user = $this->repo->find($id);
+        $user = $this->find($id);
 
         if ($user) {
             return $user;

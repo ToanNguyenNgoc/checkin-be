@@ -16,9 +16,9 @@ class RoleService extends BaseService
         return new UserService();
     }
 
-    public function create()
+    public function store()
     {
-        $role = $this->repo->create([
+        $role = $this->store([
             'name'          => $this->attributes['name'],
             'guard_name'    => $this->attributes['guard_name'] ?? 'api'
         ]);
@@ -30,7 +30,7 @@ class RoleService extends BaseService
     {
         $userId = $this->attributes['user_id'];
         $roleIds = $this->attributes['role_ids'];
-        $user = $this->user()->repo->find($userId);
+        $user = $this->user()->find($userId);
 
         if ($user) {
             $roles = $this->repo->getCollectionByIds($roleIds);

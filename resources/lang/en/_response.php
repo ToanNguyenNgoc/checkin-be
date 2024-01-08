@@ -6,6 +6,7 @@
             'store'     => 'Record updated successfully',
             'assign'    => 'Model assigned successfully',
             'revoke'    => 'Resource revoked successfully',
+            'delete'    => 'Resource deleted successfully',
         ],
         'failed' => [
             '400'       => 'Resource not found',

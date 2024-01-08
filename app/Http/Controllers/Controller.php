@@ -44,10 +44,10 @@ class Controller extends BaseController
         }
     }
 
-    public function remove(DeleteRequest $request)
+    public function remove($id)
     {
-        if ($this->service->remove($request->id)) {
-            return $this->responseSuccess(null);
+        if ($this->service->remove($id)) {
+            return $this->responseSuccess(null, trans('_response.success.delete'));
         } else {
             return $this->responseError([
                 'message' => 'Unable to remove item'
@@ -55,10 +55,10 @@ class Controller extends BaseController
         }
     }
 
-    public function delete(DeleteRequest $request)
+    public function delete($id)
     {
-        if ($this->service->delete($request->id)) {
-            return $this->responseSuccess(null);
+        if ($this->service->delete($id)) {
+            return $this->responseSuccess(null, trans('_response.success.delete'));
         } else {
             return $this->responseError([
                 'message' => 'Unable to delete item'

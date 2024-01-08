@@ -36,7 +36,7 @@ class PermissionService extends BaseService
 
     public function getListFromRole($roleId)
     {
-        $role = $this->role()->repo->find($roleId);
+        $role = $this->role()->find($roleId);
 
         if ($role) {
             return $role->getPermissionNames();
@@ -49,7 +49,7 @@ class PermissionService extends BaseService
     {
         $roleId = $this->attributes['role_id'];
         $permissionIds = $this->attributes['permission_ids'];
-        $role = $this->role()->repo->find($roleId);
+        $role = $this->role()->find($roleId);
 
         if ($role) {
             $permissions = $this->repo->getCollectionByIds($permissionIds);
@@ -63,7 +63,7 @@ class PermissionService extends BaseService
     public function revokeFromRole($roleId)
     {
         $permissionIds = $this->attributes['permission_ids'];
-        $role = $this->role()->repo->find($roleId);
+        $role = $this->role()->find($roleId);
 
         if ($role) {
             $permissions = $this->repo->getCollectionByIds($permissionIds);
