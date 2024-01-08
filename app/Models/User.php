@@ -101,12 +101,14 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'is_admin'          => 'bool',
+        'company_id'        => 'int',
+		'event_id'          => 'int',
+		'is_admin'          => 'bool',
 		'expire_date'       => 'datetime',
 		'email_verified_at' => 'datetime',
 		'created_by'        => 'int',
 		'updated_by'        => 'int',
-		'last_login_at'     => 'datetime',
+		'last_login_at'     => 'datetime'
     ];
 
     /**
@@ -115,7 +117,9 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'is_admin',
+        'company_id',
+		'event_id',
+		'is_admin',
 		'expire_date',
 		'name',
 		'username',
@@ -134,6 +138,8 @@ class User extends Authenticatable
     ];
 
     protected $logAttributes = [
+        'company_id',
+		'event_id',
         'expire_date',
         'name',
 		'username',
@@ -149,9 +155,79 @@ class User extends Authenticatable
 
     /* RELATIONSHIP */
 
+	public function company()
+	{
+		return $this->belongsTo(Company::class);
+	}
+
 	public function user()
 	{
 		return $this->belongsTo(User::class, 'updated_by');
+	}
+
+	public function event()
+	{
+		return $this->belongsTo(Event::class);
+	}
+
+	public function checkins()
+	{
+		return $this->hasMany(Checkin::class);
+	}
+
+	public function clients()
+	{
+		return $this->hasMany(Client::class, 'updated_by');
+	}
+
+	public function companies()
+	{
+		return $this->hasMany(Company::class, 'updated_by');
+	}
+
+	public function countries()
+	{
+		return $this->hasMany(Country::class, 'updated_by');
+	}
+
+	public function event_assets()
+	{
+		return $this->hasMany(EventAsset::class, 'updated_by');
+	}
+
+	public function event_settings()
+	{
+		return $this->hasMany(EventSetting::class, 'updated_by');
+	}
+
+	public function events()
+	{
+		return $this->hasMany(Event::class, 'updated_by');
+	}
+
+	public function export_logs()
+	{
+		return $this->hasMany(ExportLog::class, 'updated_by');
+	}
+
+	public function language_defines()
+	{
+		return $this->hasMany(LanguageDefine::class, 'updated_by');
+	}
+
+	public function languages()
+	{
+		return $this->hasMany(Language::class, 'updated_by');
+	}
+
+	public function organizers()
+	{
+		return $this->hasMany(Organizer::class, 'updated_by');
+	}
+
+	public function qrcode_templates()
+	{
+		return $this->hasMany(QrcodeTemplate::class, 'updated_by');
 	}
 
 	public function users()
