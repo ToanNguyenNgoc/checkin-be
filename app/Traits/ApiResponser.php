@@ -9,11 +9,12 @@ trait ApiResponser
      *
      * @return \Illuminate\Http\Response
      */
-    protected function responseSuccess($data = null, $message = null, $code = 200)
+    protected function responseSuccess($data = null, $message = null, $code = 200, $messageCode = null)
 	{
 		return response()->json([
 			'status'        => 'success',
             'status_code'   => $code,
+			'message_code'  => $messageCode,
 			'message'       => $message,
 			'data'          => $data
 		], $code);
@@ -24,11 +25,12 @@ trait ApiResponser
      *
      * @return \Illuminate\Http\Response
      */
-	protected function responseError($message = null, $code = 400)
+	protected function responseError($message = null, $code = 401, $messageCode = null)
 	{
 		return response()->json([
 			'status'        => 'error',
 			'status_code'   => $code,
+			'message_code'  => $messageCode,
 			'message'       => $message,
 			'data'          => null
 		], $code);

@@ -31,14 +31,22 @@ class EnsureHeaderIsValid
                 if ($request->hasHeader('User-Agent')
                     && $request->hasHeader('App-Key')
                 ) {
-                    if (\in_array($request->header('User-Agent'), ['PDA', 'WebPortal', 'MobileApp'])) {
-                        if ($request->accepts(['application/json'])) {
-                            $tmpAppKey = $request->header('App-Key');
-                            $appKey = "base64:{$tmpAppKey}=";
+                    // if (\in_array($request->header('User-Agent'), ['PDA', 'WebPortal', 'MobileApp'])) {
+                    //     if ($request->accepts(['application/json'])) {
+                    //         $tmpAppKey = $request->header('App-Key');
+                    //         $appKey = "base64:{$tmpAppKey}=";
 
-                            if ($appKey === config('app.key')) {
-                                return true;
-                            }
+                    //         if ($appKey === config('app.key')) {
+                    //             return true;
+                    //         }
+                    //     }
+                    // }
+                    if ($request->accepts(['application/json'])) {
+                        $tmpAppKey = $request->header('App-Key');
+                        $appKey = "base64:{$tmpAppKey}=";
+
+                        if ($appKey === config('app.key')) {
+                            return true;
                         }
                     }
                 }

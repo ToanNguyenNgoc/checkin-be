@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Api;
 
+use App\Enums\MessageCodeEnum;
 use App\Services\Api\AuthService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\LoginRequest;
@@ -18,9 +19,9 @@ class AuthController extends Controller
         $this->service->attributes = $request->all();
 
         if ($this->service->authenticate()) {
-            return $this->responseSuccess(LoginResource::make(auth('api')->user()), trans('_auth.success'));
+            return $this->responseSuccess(LoginResource::make(auth('api')->user()), trans('_auth.success'), 200, MessageCodeEnum::LOGIN_SUCCESS);
         } else {
-            return $this->responseError(__('auth.failed'), 401);
+            return $this->responseError(__('auth.failed'), 401, MessageCodeEnum::USER_NAME_OR_PASSWORD_INCORRECT);
         }
     }
 }
