@@ -41,7 +41,7 @@ class Cacher
         return true;
     }
 
-    private function return($result, $type)
+    private static function return($result, $type)
     {
         switch ($type) {
             case "json":

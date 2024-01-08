@@ -16,6 +16,7 @@ class Controller extends BaseController
     use AuthorizesRequests, ValidatesRequests, ApiResponser;
 
     public $service;
+    public $cacher;
 
     public function index(Request $request)
     {
