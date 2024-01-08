@@ -1,10 +1,10 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\Fakes;
 
 use Illuminate\Database\Seeder;
 
-class FakeUserSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
