@@ -27,6 +27,8 @@ Route::middleware('role:admin')->get('/admin', function () {
 });
 
 Route::group(['middleware' => ['auth:sanctum']], function() {
+    Route::get('/test', [App\Http\Controllers\Api\TestController::class, 'testRedis']);
+
     /* USER */
     Route::get('/self', [App\Http\Controllers\Api\UserController::class, 'user']);
     Route::get('/user/{id}', [App\Http\Controllers\Api\UserController::class, 'detail'])->middleware('permission:user:view');;
