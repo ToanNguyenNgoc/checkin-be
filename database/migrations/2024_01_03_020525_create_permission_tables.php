@@ -45,6 +45,8 @@ return new class extends Migration
                 ->default('api');       // For MySQL 8.0 use string('guard_name', 125);
             $table->boolean('enable')
                 ->default(true);
+            $table->boolean('is_hidden')
+                ->default(false);
             $table->timestamps();
 
             if ($teams || config('permission.testing')) {
