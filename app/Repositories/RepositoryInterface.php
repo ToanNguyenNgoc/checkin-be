@@ -23,7 +23,7 @@ interface RepositoryInterface
 
     public function getItems($status = null, $orderByColumn = 'updated_at', $orderByDesc = true, $limit = 0, $paginate = 0);
 
-    public function getList($orderByColumn = 'updated_at', $orderByDesc = true, $limit = 0, $paginate = 0);
+    public function getList($status = null, $orderByColumn = 'updated_at', $orderByDesc = true, $limit = 0, $paginate = 50);
 
     /**
      * Get one

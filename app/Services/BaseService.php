@@ -35,6 +35,7 @@ class BaseService
     public function getList()
     {
         return $this->repo->getList(
+            $this->attributes['status'] ?? null,
             $this->attributes['orderBy'] ?? 'updated_at',
             $this->attributes['orderDesc'] ?? true,
             $this->attributes['limit'] ?? null,

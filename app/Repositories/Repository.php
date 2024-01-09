@@ -63,12 +63,12 @@ abstract class Repository implements RepositoryInterface
         return $item;
     }
 
-    public function getList($orderByColumn = 'updated_at', $orderByDesc = true, $limit = 0, $paginate = 50)
+    public function getList($status = null, $orderByColumn = 'updated_at', $orderByDesc = true, $limit = 0, $paginate = 50)
     {
         $query = $this->model;
 
         if (Schema::hasColumn($this->getModelTable(), 'status')) {
-            $query = $query->where('status', '!=', $this->model::STATUS_DELETED);
+            return $this->getItems($status, $orderByColumn, $orderByDesc, $limit, $paginate);
         }
 
         if ($orderByDesc) {
