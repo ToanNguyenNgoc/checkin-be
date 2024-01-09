@@ -44,9 +44,12 @@ class RoleService extends BaseService
 
         if ($user) {
             $roles = $this->repo->getCollectionByIds($roleIds);
-            $roleNames = $roles->pluck('name')->toArray();
-            $user->syncRoles($roleNames);
-            return true;
+
+            if (!$roles->isEmpty()) {
+                $roleNames = $roles->pluck('name')->toArray();
+                $user->syncRoles($roleNames);
+                return true;
+            }
         }
 
         return false;
