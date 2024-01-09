@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
+
+            $table->uuid('token')->default(\Illuminate\Support\Facades\DB::raw('(UUID())'));
+
             $table->foreignId('country_id')
                 ->nullable();
             $table->foreignId('event_id')
