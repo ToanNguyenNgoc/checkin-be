@@ -19,10 +19,10 @@ class AuthController extends Controller
         $this->service->attributes = $request->all();
         $result = $this->service->authenticate();
 
-        if ($this->service->authenticate()) {
-            return $this->responseSuccess(LoginResource::make(auth('api')->user()), trans('_auth.success'), 200, MessageCodeEnum::LOGIN_SUCCESS);
+        if ($result['auth']) {
+            return $this->responseSuccess(LoginResource::make(auth('api')->user()), $result['msg'], 200, MessageCodeEnum::LOGIN_SUCCESS);
         } else {
-            return $this->responseError(__('auth.failed'), 401, MessageCodeEnum::USER_NAME_OR_PASSWORD_INCORRECT);
+            return $this->responseError($result['msg'], 401, MessageCodeEnum::USER_NAME_OR_PASSWORD_INCORRECT);
         }
     }
 }
