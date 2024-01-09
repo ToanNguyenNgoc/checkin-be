@@ -16,6 +16,16 @@ class RoleService extends BaseService
         return new UserService();
     }
 
+    public function getList()
+    {
+        return $this->repo->getRoles(
+            $this->attributes['orderBy'] ?? 'updated_at',
+            $this->attributes['orderDesc'] ?? true,
+            $this->attributes['limit'] ?? null,
+            $this->attributes['paginate'] ?? 50
+        );
+    }
+
     public function store()
     {
         $role = $this->store([

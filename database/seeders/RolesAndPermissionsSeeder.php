@@ -30,7 +30,9 @@ class RolesAndPermissionsSeeder extends Seeder
 
         Permission::create(['name' => 'user:view']);
         Permission::create(['name' => 'user:create']);
+        Permission::create(['name' => 'user:create-admin']);
         Permission::create(['name' => 'user:update']);
+        Permission::create(['name' => 'user:update-admin']);
         Permission::create(['name' => 'user:delete']);
 
         Permission::create(['name' => 'system:view-history']);
@@ -108,10 +110,13 @@ class RolesAndPermissionsSeeder extends Seeder
         $permissionAdminToExclude = [
             'user_role:view',
             'user_role:create',
-            'user_role:assign-to-user',
-            'user_permission:view',
             'user_permission:assign-to-role',
-            'user_permission:revoke-from-role'
+            'user_permission:revoke-from-role',
+            'user:create-admin',
+            'system:view-history',
+            'system:restore-default',
+            'company:create',
+            'company:delete',
         ];
 
         $permissions = Permission::all()->filter(function ($permission) use ($permissionAdminToExclude) {
@@ -120,7 +125,11 @@ class RolesAndPermissionsSeeder extends Seeder
 
         /* ROLES */
 
-        Role::create(['name' => 'system-admin'])->givePermissionTo(Permission::all());
+        Role::create([
+            'name'      => 'system-admin',
+            'is_hidden' => true
+        ])->givePermissionTo(Permission::all());
+
         Role::create(['name' => 'admin'])->givePermissionTo($permissions);
         Role::create(['name' => 'user']);
         Role::create(['name' => 'device']);
