@@ -142,7 +142,7 @@ abstract class Repository implements RepositoryInterface
             return $result;
         }
 
-        return false;
+        return null;
     }
 
     public function upsert($attributes = [], $id = null)

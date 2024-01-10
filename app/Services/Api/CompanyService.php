@@ -38,4 +38,21 @@ class CompanyService extends BaseService
 
         return $this->storeAs($attrs, $attrMores);
     }
+
+    public function assignCompany()
+    {
+        $id = $this->attributes['id'];
+        $company = $this->find($id);
+
+        if ($company) {
+            $parentId = isset($this->attributes['company_id']) ? $this->attributes['company_id'] : null;
+
+            return $this->storeAs([], [
+                'id'            => $id,
+                'parent_id'     => $parentId
+            ]);
+        }
+
+        return null;
+    }
 }
