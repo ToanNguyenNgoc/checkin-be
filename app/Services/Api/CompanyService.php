@@ -25,13 +25,13 @@ class CompanyService extends BaseService
 
         if (!isset($this->attributes['id'])) {
             $attrMores = [
-                'created_by' => auth()->user()->id,
-                'updated_by' => auth()->user()->id
+                'created_by'    => auth()->user()->id,
+                'updated_by'    => auth()->user()->id
             ];
         } else {
             $attrMores = [
-                'created_by' => auth()->user()->id,
-                'updated_by' => Company::STATUS_ACTIVE
+                'updated_by'    => auth()->user()->id,
+                'status'        => Company::STATUS_ACTIVE
             ];
         }
 
