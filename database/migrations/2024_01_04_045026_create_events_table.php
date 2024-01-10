@@ -26,9 +26,9 @@ return new class extends Migration
             $table->boolean('encrypt_file_link')
                 ->default(false)
                 ->nullable(false);
-            $table->dateTime('from_date')
+            $table->date('from_date')
                 ->nullable(false);
-            $table->dateTime('end_date')
+            $table->date('end_date')
                 ->nullable(false);
             $table->json('main_field_template');
             $table->json('custom_field_template');
