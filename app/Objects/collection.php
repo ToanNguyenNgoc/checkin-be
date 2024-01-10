@@ -14,18 +14,6 @@ class --CollectionName-- extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
-        $this->attrOnly = [
-
-        ];
-
-        $this->attrMores = [
-
-        ];
-
-        $this->attrExcepts = [
-
-        ];
-
         return [
             'count'         => $this->collection->count(),
             'collection'    => $this->finalizeResult($request)

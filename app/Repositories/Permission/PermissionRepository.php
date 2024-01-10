@@ -15,4 +15,11 @@ class PermissionRepository extends Repository implements PermissionRepositoryInt
         $query = $this->model->whereIn('id', $ids);
         return $query->get();
     }
+
+    public function getDetailByName($name)
+    {
+        $query = $this->model->where('guard_name', 'api')
+            ->where('name', $name);
+        return $query->first();
+    }
 }

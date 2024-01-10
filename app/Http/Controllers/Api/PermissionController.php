@@ -5,7 +5,7 @@ use App\Services\Api\PermissionService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Permission\AssignToRoleRequest;
 use App\Http\Requests\Api\Permission\RevokeFromRoleRequest;
-use GuzzleHttp\Psr7\Request;
+use App\Http\Resources\Permission\PermissionCollection;
 
 class PermissionController extends Controller
 {
@@ -20,7 +20,7 @@ class PermissionController extends Controller
 
         if (is_array($permissions) && count($permissions)) {
             return $this->responseSuccess(
-                $permissions,
+                new PermissionCollection($permissions),
                 trans('_response.success.index')
             );
         } else {
@@ -36,7 +36,7 @@ class PermissionController extends Controller
 
         if ($permissions) {
             return $this->responseSuccess(
-                $permissions,
+                new PermissionCollection($permissions),
                 trans('_response.success.index')
             );
         } else {

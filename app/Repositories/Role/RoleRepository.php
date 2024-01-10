@@ -33,8 +33,11 @@ class RoleRepository extends Repository implements RoleRepositoryInterface
 
     public function getCollectionByIds($ids)
     {
-        $query = $this->model->whereIn('id', $ids)
-            ->where('is_hidden', '=', false);
+        $query = $this->model->whereIn('id', $ids);
+
+        if (!$this->user()->hasRole('system-admin')) {
+            $query = $query->where('is_hidden', '=', false);
+        }
         // $query = $this->model->where('enable', true);
         // $query = $query->whereIn('id', $ids);
         return $query->get();
@@ -42,8 +45,12 @@ class RoleRepository extends Repository implements RoleRepositoryInterface
 
     public function getDetailByName($name)
     {
-        $query = $this->model->where('enable', true)
-            ->where('is_hidden', '=', false);
+        $query = $this->model->where('enable', true);
+
+        if (!$this->user()->hasRole('system-admin')) {
+            $query = $query->where('is_hidden', '=', false);
+        }
+
         $query = $query->where('name', $name);
         return $query->first();
     }

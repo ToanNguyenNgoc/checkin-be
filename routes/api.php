@@ -52,10 +52,11 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::get('/events', [EventController::class, 'index'])->middleware('permission:event:view');
     Route::get('/event/{id}', [EventController::class, 'detail'])->middleware('permission:event:view');
     Route::post('/event/store', [EventController::class, 'store'])->middleware('permission:event:create');
-    Route::get('/event/get-field-template/{id}', [EventController::class, 'getFieldTemplate'])->middleware('permission:event:config');
-    // Route::post('/event/update-field-template', [EventController::class, 'updateFieldTemplate'])->middleware('permission:event:config');
     Route::post('/event/assign-company', [EventController::class, 'assignCompany'])->middleware('permission:event:assign-company');
     Route::delete('/event/delete/{id}', [EventController::class, 'remove'])->middleware('permission:event:delete');
+    /* FIELDS */
+    Route::get('/event/{id}/fields', [EventController::class, 'getFieldTemplate'])->middleware('permission:event:config');
+    Route::post('/event/{id}/field/update', [EventController::class, 'updateFieldTemplate'])->middleware('permission:event:config');
 
     /* ROLE */
     Route::get('/roles', [RoleController::class, 'index'])->middleware('permission:user_role:view');
