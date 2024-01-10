@@ -219,6 +219,11 @@ class Helper
         return Carbon::parse($dateTime)->format(config('app.date_format'));
     }
 
+    public static function getDateFormat($date)
+    {
+        return date(config('app.date_only_format'), strtotime($date));
+    }
+
     public static function checkDateFormat($dateString) {
         $date = DateTime::createFromFormat('Y-m-d', $dateString);
 
