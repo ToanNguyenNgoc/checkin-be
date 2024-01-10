@@ -125,7 +125,8 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
-    'date_format' => 'Y-m-d H:i:s',
+    'date_format'       => 'Y-m-d H:i:s',
+    'date_only_format'  => 'Y-m-d',
 
     /*
     |--------------------------------------------------------------------------

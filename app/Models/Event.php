@@ -55,16 +55,16 @@ class Event extends BaseModel
 	protected $table = 'events';
 
 	protected $casts = [
-		'company_id'            => 'int',
-		'is_default'            => 'bool',
-		'encrypt_file_link'     => 'bool',
-		'from_date'             => 'date',
-		'end_date'              => 'date',
-		'main_field_template'   => 'json',
-		'custom_field_template' => 'json',
-		'languages'             => 'json',
-		'created_by'            => 'int',
-		'updated_by'            => 'int'
+		'company_id'                => 'int',
+		'is_default'                => 'bool',
+		'encrypt_file_link'         => 'bool',
+		'from_date'                 => 'date',
+		'end_date'                  => 'date',
+		'main_field_templates'      => 'json',
+		'custom_field_templates'    => 'json',
+		'languages'                 => 'json',
+		'created_by'                => 'int',
+		'updated_by'                => 'int'
 	];
 
 	protected $fillable = [
@@ -78,8 +78,8 @@ class Event extends BaseModel
 		'encrypt_file_link',
 		'from_date',
 		'end_date',
-		'main_field_template',
-		'custom_field_template',
+		'main_field_templates',
+		'custom_field_templates',
 		'languages',
 		'contact_name',
 		'contact_email',

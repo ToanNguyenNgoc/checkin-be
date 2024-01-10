@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\TestController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\CompanyController;
+use App\Http\Controllers\Api\EventController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\PermissionController;
 
@@ -44,7 +45,15 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::get('/companys', [CompanyController::class, 'index'])->middleware('permission:company:view');
     Route::get('/company/{id}', [CompanyController::class, 'detail'])->middleware('permission:company:view');
     Route::post('/company/store', [CompanyController::class, 'store'])->middleware('permission:company:create');
+    Route::post('/company/assign-company', [CompanyController::class, 'assignCompany'])->middleware('permission:company:create');
     Route::delete('/company/delete/{id}', [CompanyController::class, 'remove'])->middleware('permission:company:delete');
+
+    /* EVENT */
+    Route::get('/events', [EventController::class, 'index'])->middleware('permission:event:view');
+    Route::get('/event/{id}', [EventController::class, 'detail'])->middleware('permission:event:view');
+    Route::post('/event/store', [EventController::class, 'store'])->middleware('permission:event:create');
+    Route::post('/event/assign-company', [EventController::class, 'assignCompany'])->middleware('permission:event:assign-company');
+    Route::delete('/event/delete/{id}', [EventController::class, 'remove'])->middleware('permission:event:delete');
 
     /* ROLE */
     Route::get('/roles', [RoleController::class, 'index'])->middleware('permission:user_role:view');
