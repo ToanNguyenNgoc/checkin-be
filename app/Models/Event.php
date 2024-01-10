@@ -54,6 +54,20 @@ class Event extends BaseModel
 {
 	protected $table = 'events';
 
+    /* CONST */
+
+    const MAIN_FIELD_QRCODE         = 'qrcode';
+    const MAIN_FIELD_NAME           = 'name';
+    const MAIN_FIELD_EMAIL          = 'email';
+    const MAIN_FIELD_PHONE          = 'phone';
+
+    const MAIN_FIELDS = [
+        self::MAIN_FIELD_QRCODE     => 'Qrcode Identifier',
+        self::MAIN_FIELD_NAME       => 'Full Name',
+        self::MAIN_FIELD_EMAIL      => 'Email',
+        self::MAIN_FIELD_PHONE      => 'Phone number',
+    ];
+
 	protected $casts = [
 		'company_id'                => 'int',
 		'is_default'                => 'bool',
@@ -89,6 +103,8 @@ class Event extends BaseModel
 		'created_by',
 		'updated_by'
 	];
+
+    /* RELATIONSHIP */
 
 	public function company()
 	{
@@ -139,4 +155,118 @@ class Event extends BaseModel
 	{
 		return $this->hasMany(User::class);
 	}
+
+    /* CONST FUNCTIONS */
+
+    static public function getMainFields()
+    {
+        return self::MAIN_FIELDS;
+    }
+
+    /* FUNCTIONS */
+
+    public function getAttributeDetailTemplate()
+    {
+        return [
+            "show"      => [
+                "type"      => "checkbox",
+                "default"   => false,
+            ],
+            "bold"      => [
+                "type"      => "checkbox",
+                "default"   => false,
+            ],
+            "italic"    => [
+                "type"      => "checkbox",
+                "default"   => false,
+            ],
+            "font_size" => [
+                "type"      => "number",
+                "default"   => 15,
+            ],
+            "font"      => [
+                "type"      => "select",
+                "options"   => "...",
+                "default"   => "ARIAL",
+            ],
+            "color"     => [
+                "type"      => "color",
+                "default"   => "#000000",
+            ],
+            "v_align"   => [
+                "type"      => "select",
+                "options"   => [
+                    "TOP"       => "Top",
+                    "MIDDLE"    => "Middle",
+                    "BOTTOM"    => "Bottom",
+                ],
+                "default"   => "TOP",
+            ],
+            "h_align"   => [
+                "type"      => "select",
+                "options"   => [
+                    "LEFT"      => "Left",
+                    "CENTER"    => "Center",
+                    "RIGHT"     => "Right",
+                ],
+                "default" => "LEFT",
+            ],
+            "pos_x"     => [
+                "type"      => "number",
+                "default"   => 0,
+            ],
+            "pos_y"     => [
+                "type"      => "number",
+                "default"   => 0,
+            ],
+        ];
+    }
+
+    public function getFieldTemplate()
+    {
+        $template = [
+            "field"         => "",
+            "desc"          => "",
+            "order"         => "",
+            "is_main"       => false,
+            "attributes"    => [
+                "desktop",
+                "mobile",
+                "tablet",
+            ],
+        ];
+
+        foreach ($template['attributes'] as $key) {
+            $template[$key] = $this->getAttributeDetailTemplate();
+        }
+
+        return $template;
+    }
+
+    public function buildDefaultMainFieldTemplate()
+    {
+        $order = 1;
+
+        foreach ($this->getAttributeDetailTemplate() as $attr => $config) {
+            $defaultDetailAttributes[$attr] = $config['default'];
+        }
+
+        foreach ($this->getMainFields() as $field => $desc) {
+            $mainFieldTemplate[$order] = [
+                "field"         => $field,
+                "desc"          => $desc,
+                "order"         => $order,
+                "is_main"       => true,
+                "attributes"    => [
+                    "desktop"       => $defaultDetailAttributes,
+                    "mobile"        => $defaultDetailAttributes,
+                    "tablet"        => $defaultDetailAttributes,
+                ],
+            ];
+
+            $order++;
+        }
+
+        return $mainFieldTemplate;
+    }
 }

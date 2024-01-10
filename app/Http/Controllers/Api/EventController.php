@@ -5,6 +5,7 @@ use App\Services\Api\EventService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Event\AssignCompanyRequest;
 use App\Http\Requests\Api\Event\StoreRequest;
+use App\Http\Requests\Api\Event\UpdateFieldRequest;
 use App\Http\Resources\Event\EventResource;
 
 class EventController extends Controller
@@ -33,6 +34,30 @@ class EventController extends Controller
 
         if ($this->service->assignCompany()) {
             return $this->responseSuccess(null, trans('_response.success.assign'));
+        } else {
+            return $this->responseError([
+                'message' => trans('_response.failed.400')
+            ], 400);
+        }
+    }
+
+    public function getFieldTemplate($id)
+    {
+        if ($result = $this->service->getFieldTemplate($id)) {
+            return $this->responseSuccess($result, trans('_response.success.detail'));
+        } else {
+            return $this->responseError([
+                'message' => trans('_response.failed.400')
+            ], 400);
+        }
+    }
+
+    public function updateFieldTemplate(UpdateFieldRequest $request)
+    {
+        $this->service->attributes = $request->all();
+
+        if ($result = $this->service->updateFieldTemplate()) {
+            return $this->responseSuccess($result, trans('_response.success.detail'));
         } else {
             return $this->responseError([
                 'message' => trans('_response.failed.400')

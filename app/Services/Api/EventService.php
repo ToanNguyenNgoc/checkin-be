@@ -28,11 +28,14 @@ class EventService extends BaseService
         ];
 
         if (!isset($this->attributes['id'])) {
+            $model = $this->init();
+
             $attrMores = [
-                'company_id'    => $this->attributes['company_id'],
-                'code'          => $this->attributes['code'],
-                'created_by'    => auth()->user()->id,
-                'updated_by'    => auth()->user()->id
+                'company_id'            => $this->attributes['company_id'],
+                'code'                  => $this->attributes['code'],
+                'created_by'            => auth()->user()->id,
+                'updated_by'            => auth()->user()->id,
+                'main_field_templates'  => $model->buildDefaultMainFieldTemplate(),
             ];
         } else {
             $attrMores = [
@@ -58,6 +61,45 @@ class EventService extends BaseService
             ], [
                 'id'            => $id
             ]);
+        }
+
+        return null;
+    }
+
+    public function getFieldTemplate($id)
+    {
+        $event = $this->find($id);
+
+        if ($event) {
+            return [
+                'id'            => $event->id,
+                'template'      => $event->getFieldTemplate(),
+                'main_fields'   => !empty($event->main_field_templates) ? $event->main_field_templates : $event->buildDefaultMainFieldTemplate(),
+                'custom_fields' => $event->custom_field_templates
+            ];
+        }
+
+        return null;
+    }
+
+    public function updateFieldTemplate()
+    {
+        $id = $this->attributes['id'];
+        $event = $this->find($id);
+
+        if ($event) {
+            /* if (!empty($this->attributes['main_fields']) && count($this->attributes['main_fields'])) {
+                foreach ($this->attributes['main_fields'] as $key => $attributes) {
+
+                }
+            }
+
+            return [
+                'id'            => $event->id,
+                'template'      => $event->getFieldTemplate(),
+                'main_fields'   => !empty($event->main_field_templates) ? $event->main_field_templates : $event->buildDefaultMainFieldTemplate(),
+                'custom_fields' => $event->custom_field_templates
+            ]; */
         }
 
         return null;
