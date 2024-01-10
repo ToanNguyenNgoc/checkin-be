@@ -15,9 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('event_id')
                 ->nullable(false);
-            $table->string('file_name');
-            $table->string('file_path');
-            $table->string('type', 50);
+            $table->string('file_name')
+                ->nullable(false);
+            $table->string('file_path')
+                ->nullable(false);
+            $table->string('type', 50)
+                ->nullable(false);
             $table->string('status', 50)
                 ->default('NEW')
                 ->nullable(false);

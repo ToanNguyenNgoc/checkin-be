@@ -18,11 +18,16 @@ return new class extends Migration
             $table->boolean('is_default')
                 ->default(false)
                 ->nullable(false);
-            $table->string('code', 200);
-            $table->string('name', 255);
-            $table->string('description', 255);
-            $table->string('logo_path', 255);
-            $table->string('location', 255);
+            $table->string('code', 200)
+                ->nullable(false);
+            $table->string('name', 255)
+                ->nullable(false);
+            $table->string('description', 255)
+                ->nullable();
+            $table->string('logo_path', 255)
+                ->nullable();
+            $table->string('location', 255)
+                ->nullable();
             $table->boolean('encrypt_file_link')
                 ->default(false)
                 ->nullable(false);
@@ -30,13 +35,20 @@ return new class extends Migration
                 ->nullable(false);
             $table->date('end_date')
                 ->nullable(false);
-            $table->json('main_field_template');
-            $table->json('custom_field_template');
-            $table->json('languages');
-            $table->string('contact_name', 255);
-            $table->string('contact_email', 255);
-            $table->string('contact_phone', 255);
-            $table->string('note', 255);
+            $table->json('main_field_templates')
+                ->nullable();;
+            $table->json('custom_field_templates')
+                ->nullable();;
+            $table->json('languages')
+                ->nullable();
+            $table->string('contact_name', 255)
+                ->nullable();
+            $table->string('contact_email', 255)
+                ->nullable();
+            $table->string('contact_phone', 255)
+                ->nullable();
+            $table->string('note', 255)
+                ->nullable();
             $table->string('status', 50)
                 ->default('NEW')
                 ->nullable(false);

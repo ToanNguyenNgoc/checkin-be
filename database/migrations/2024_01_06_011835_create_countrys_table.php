@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('code')
                 ->unique();
-            $table->string('name');
-            $table->boolean('is_default');
+            $table->string('name')
+                ->nullable(false);
+            $table->boolean('is_default')
+                ->nullable(false);
             $table->string('description')
                 ->nullable();
             $table->string('flag_link')

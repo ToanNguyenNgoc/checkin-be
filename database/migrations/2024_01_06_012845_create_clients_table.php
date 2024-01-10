@@ -13,21 +13,25 @@ return new class extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
-
-            $table->uuid('token')->default(\Illuminate\Support\Facades\DB::raw('(UUID())'));
-
+            $table->uuid('token')
+                ->default(\Illuminate\Support\Facades\DB::raw('(UUID())'));
             $table->foreignId('country_id')
                 ->nullable();
             $table->foreignId('event_id')
                 ->nullable(false);
             $table->string('event_code')
                 ->nullable(false);
-            $table->string('qrcode', 200);
+            $table->string('qrcode', 200)
+                ->nullable(false);
             $table->unique(['event_id', 'qrcode']);
-            $table->string('email', 255);
-            $table->string('phone', 50);
-            $table->json('file_collection');
-            $table->json('custom_fields');
+            $table->string('email', 255)
+                ->nullable();
+            $table->string('phone', 50)
+                ->nullable();
+            $table->json('file_collection')
+                ->nullable();
+            $table->json('custom_fields')
+                ->nullable();
             $table->string('type', 50)
                 ->default('NORMAL')
                 ->nullable(false);

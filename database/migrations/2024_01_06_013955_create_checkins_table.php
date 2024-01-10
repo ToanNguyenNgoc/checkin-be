@@ -19,13 +19,20 @@ return new class extends Migration
                 ->nullable(false);
             $table->foreignId('user_id')
                 ->nullable();
-            $table->string('device_name', 255);
-            $table->string('qrcode', 200);
-            $table->string('client_name', 255);
+            $table->string('device_name', 255)
+                ->nullable(false);
+            $table->string('qrcode', 200)
+                ->nullable(false);
+            $table->string('client_name', 255)
+                ->nullable(false);
             $table->json('params');
-            $table->dateTime('scan_time');
-            $table->string('note', 255);
-            $table->string('type', 50);
+            $table->dateTime('scan_time')
+                ->nullable(false);
+            $table->string('note', 255)
+                ->nullable();
+            $table->string('type', 50)
+                ->default('CHECKIN')
+                ->nullable(false);
             $table->string('status', 50)
                 ->default('ACTIVE')
                 ->nullable(false);

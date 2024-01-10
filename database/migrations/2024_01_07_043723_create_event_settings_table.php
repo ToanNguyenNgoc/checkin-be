@@ -17,9 +17,12 @@ return new class extends Migration
                 ->nullable();
             $table->foreignId('event_id')
                 ->nullable(false);
-            $table->string('description');
-            $table->string('key');
-            $table->text('value');
+            $table->string('description')
+                ->nullable();
+            $table->string('key')
+                ->nullable(false);
+            $table->text('value')
+                ->nullable(false);
             $table->string('group')
                 ->nullable(false);
             $table->string('type')

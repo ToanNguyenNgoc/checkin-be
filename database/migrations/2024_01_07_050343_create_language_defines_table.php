@@ -17,9 +17,12 @@ return new class extends Migration
                 ->nullable(false);
             $table->foreignId('event_id')
                 ->nullable(false);
-            $table->string('keyword');
-            $table->string('translate');
-            $table->string('type');
+            $table->string('keyword')
+                ->nullable(false);
+            $table->string('translate')
+                ->nullable(false);
+            $table->string('type')
+                ->nullable(false);
             $table->foreignId('created_by')
                 ->nullable();
             $table->foreignId('updated_by')

@@ -13,10 +13,17 @@ return new class extends Migration
     {
         Schema::create('event_assets', function (Blueprint $table) {
             $table->id();
+            $table->uuid('token')
+                ->default(\Illuminate\Support\Facades\DB::raw('(UUID())'));
             $table->foreignId('event_id')
                 ->nullable(false);
-            $table->string('name');
-            $table->string('value');
+            $table->string('name')
+                ->nullable();
+            $table->string('value')
+                ->nullable(false);
+            $table->boolean('encrypt_link')
+                ->default(false)
+                ->nullable(false);
             $table->string('type', 50)
                 ->default('FILE')
                 ->nullable(false);

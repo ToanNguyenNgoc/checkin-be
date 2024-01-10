@@ -19,11 +19,15 @@ return new class extends Migration
                 ->nullable(false);
             $table->string('event_code', 200)
                 ->nullable(false);
-            $table->string('qrcode')->nullable(false);
+            $table->string('qrcode')
+                ->nullable(false);
             $table->unique(['event_id', 'qrcode']);
-            $table->string('email');
-            $table->string('phone');
-            $table->json('custom_fields')->nullable();
+            $table->string('email')
+                ->nullable();
+            $table->string('phone')
+                ->nullable();
+            $table->json('custom_fields')
+                ->nullable();
             $table->string('type', 50)
                 ->default('NORMAL')
                 ->nullable(false);

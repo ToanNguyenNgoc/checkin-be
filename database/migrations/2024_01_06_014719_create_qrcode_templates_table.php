@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('name')
                 ->index();
-            $table->string('template_path');
-            $table->string('file_name_template', 50);
+            $table->string('template_path')
+                ->nullable();
+            $table->string('file_name_template', 50)
+                ->nullable();
             $table->string('logo_path', 255)
                 ->nullable();
             $table->string('color', 50)
