@@ -47,7 +47,7 @@ class Controller extends BaseController
     public function remove($id)
     {
         if ($this->service->remove($id)) {
-            return $this->responseSuccess(null, trans('_response.success.delete'));
+            return $this->responseSuccess(null, trans('_response.success.remove'));
         } else {
             return $this->responseError([
                 'message' => 'Unable to remove item'
