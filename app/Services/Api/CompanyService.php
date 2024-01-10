@@ -16,7 +16,6 @@ class CompanyService extends BaseService
     {
         $attrs = [
             'name'              => $this->attributes['name'],
-            'parent_id'         => $this->attributes['parent_id'] ?? null,
             'is_default'        => $this->attributes['is_default'] ?? false,
             'limited_users'     => $this->attributes['limited_users'] ?? null,
             'limited_events'    => $this->attributes['limited_events'] ?? null,
@@ -25,11 +24,13 @@ class CompanyService extends BaseService
 
         if (!isset($this->attributes['id'])) {
             $attrMores = [
+                'parent_id'     => $this->attributes['parent_id'] ?? null,
                 'created_by'    => auth()->user()->id,
                 'updated_by'    => auth()->user()->id
             ];
         } else {
             $attrMores = [
+                'id'            => $this->attributes['id'],
                 'updated_by'    => auth()->user()->id,
                 'status'        => Company::STATUS_ACTIVE
             ];
