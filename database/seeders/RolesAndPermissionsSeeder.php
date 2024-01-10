@@ -41,11 +41,13 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'company:view']);
         Permission::create(['name' => 'company:create']);
         Permission::create(['name' => 'company:update']);
+        Permission::create(['name' => 'company:assign-company']);
         Permission::create(['name' => 'company:delete']);
 
         Permission::create(['name' => 'event:view']);
         Permission::create(['name' => 'event:create']);
         Permission::create(['name' => 'event:update']);
+        Permission::create(['name' => 'event:assign-company']);
         Permission::create(['name' => 'event:config']);
         Permission::create(['name' => 'event:delete']);
 
@@ -116,7 +118,9 @@ class RolesAndPermissionsSeeder extends Seeder
             'system:view-history',
             'system:restore-default',
             'company:create',
+            'company:assign-company',
             'company:delete',
+            'event:assign-company',
         ];
 
         $permissions = Permission::all()->filter(function ($permission) use ($permissionAdminToExclude) {

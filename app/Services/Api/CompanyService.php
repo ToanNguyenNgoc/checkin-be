@@ -24,13 +24,17 @@ class CompanyService extends BaseService
         ];
 
         if (!isset($this->attributes['id'])) {
-            $attrMores['created_by'] = auth()->user()->id;
-            $attrMores['updated_by'] = auth()->user()->id;
+            $attrMores = [
+                'created_by' => auth()->user()->id,
+                'updated_by' => auth()->user()->id
+            ];
         } else {
-            $attrMores['updated_by'] = auth()->user()->id;
-            $attrMores['status'] = Company::STATUS_ACTIVE;
+            $attrMores = [
+                'created_by' => auth()->user()->id,
+                'updated_by' => Company::STATUS_ACTIVE
+            ];
         }
 
-        return $this->storeAs($attrs);
+        return $this->storeAs($attrs, $attrMores);
     }
 }
