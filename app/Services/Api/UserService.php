@@ -11,6 +11,18 @@ class UserService extends BaseService
         $this->repo = new UserRepository();
     }
 
+    public function getList()
+    {
+        return $this->repo->getList(
+            $this->getSearch(),
+            $this->getFilters(),
+            $this->attributes['orderBy'] ?? 'updated_at',
+            $this->attributes['orderDesc'] ?? true,
+            $this->attributes['limit'] ?? null,
+            $this->attributes['pageSize'] ?? 50
+        );
+    }
+
     public function getDetail($id)
     {
         $user = $this->find($id);

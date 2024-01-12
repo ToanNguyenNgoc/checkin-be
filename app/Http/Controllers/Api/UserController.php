@@ -1,9 +1,11 @@
 <?php
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Services\Api\UserService;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\User\ListRequest;
+use App\Http\Resources\User\SelfResource;
+use App\Http\Resources\User\UserCollection;
 use App\Http\Resources\User\UserResource;
 
 class UserController extends Controller
@@ -13,9 +15,22 @@ class UserController extends Controller
         $this->service = $service;
     }
 
+    public function list(ListRequest $request)
+    {
+        $this->service->attributes = $request->all();
+
+        if (!empty($list = $this->service->getList())) {
+            return $this->responseSuccess(new UserCollection($list), trans('_response.success.index'));
+        } else {
+            return $this->responseError([
+                'message' => trans('_response.failed.400')
+            ], 400);
+        }
+    }
+
     public function user()
     {
-        return $this->responseSuccess(UserResource::make(auth()->user()), null);
+        return $this->responseSuccess(SelfResource::make(auth()->user()), null);
     }
 
     public function detail($id)

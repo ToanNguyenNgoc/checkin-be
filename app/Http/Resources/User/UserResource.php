@@ -5,15 +5,9 @@ namespace App\Http\Resources\User;
 use App\Http\Resources\BaseResource;
 use Illuminate\Http\Request;
 use App\Helpers\Helper;
-use App\Services\Api\RoleService;
 
 class UserResource extends BaseResource
 {
-    public function role()
-    {
-        return new RoleService();
-    }
-
     /**
      * Transform the resource into an array.
      *
@@ -21,22 +15,9 @@ class UserResource extends BaseResource
      */
     public function toArray(Request $request): array
     {
-        $rolesWithPermissions = [];
-        $roles = $this->getRoleNames();
-
-        foreach ($roles as $roleName) {
-            $role = $this->role()->repo->getDetailByName($roleName);
-
-            if ($role) {
-                $permissions = $role->getPermissionNames();
-            }
-
-            $rolesWithPermissions[$roleName] = $permissions;
-        }
-
         $this->attrMores = [
             'last_login_at' => Helper::getDateTimeFormat($this->last_login_at),
-            'roles'         => $rolesWithPermissions
+            'roles'         => $this->getRoleNames(),
         ];
 
         $this->attrExcepts = [

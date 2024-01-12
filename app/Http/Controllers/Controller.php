@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
-use App\Http\Requests\Api\DeleteRequest;
-use App\Http\Resources\BaseCollection;
+use App\Http\Resources\DefaultCollection;
 use App\Http\Resources\BaseResource;
 use Illuminate\Http\Request;
 use App\Traits\ApiResponser;
@@ -23,7 +22,7 @@ class Controller extends BaseController
         $this->service->attributes = $request->all();
 
         if (!empty($list = $this->service->getList())) {
-            return $this->responseSuccess(new BaseCollection($list), trans('_response.success.index'));
+            return $this->responseSuccess(new DefaultCollection($list), trans('_response.success.index'));
         } else {
             return $this->responseError([
                 'message' => trans('_response.failed.400')

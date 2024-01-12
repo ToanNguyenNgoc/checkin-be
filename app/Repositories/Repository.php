@@ -1,6 +1,7 @@
 <?php
 namespace App\Repositories;
 
+use App\Helpers\Helper;
 use App\Repositories\RepositoryInterface;
 use Illuminate\Support\Facades\Schema;
 
@@ -63,31 +64,6 @@ abstract class Repository implements RepositoryInterface
         return $item;
     }
 
-    public function getList($status = null, $orderByColumn = 'updated_at', $orderByDesc = true, $limit = 0, $paginate = 50)
-    {
-        $query = $this->model;
-
-        if (Schema::hasColumn($this->getModelTable(), 'status')) {
-            return $this->getItems($status, $orderByColumn, $orderByDesc, $limit, $paginate);
-        }
-
-        if ($orderByDesc) {
-            $query = $query->orderBy($orderByColumn, 'desc');
-        } else {
-            $query = $query->orderBy($orderByColumn, 'asc');
-        }
-
-        if ($limit) {
-            $query = $query->limit($limit);
-        }
-
-        if ($paginate) {
-            return $query->paginate($paginate);
-        }
-
-        return $query->get();
-    }
-
     public function getItems($status = null, $orderByColumn = 'updated_at', $orderByDesc = true, $limit = 0, $paginate = 50)
     {
         $query = $this->model->where('status', '!=', $this->model::STATUS_DELETED);
@@ -117,9 +93,56 @@ abstract class Repository implements RepositoryInterface
         return $query->get();
     }
 
+    public function getList($status = null, $orderByColumn = 'updated_at', $orderByDesc = true, $limit = 0, $paginate = 50)
+    {
+        $query = $this->model;
+
+        if (Helper::tableHasColumn($this->getModelTable(), 'status')) {
+            return $this->getItems($status, $orderByColumn, $orderByDesc, $limit, $paginate);
+        }
+
+        if ($orderByDesc) {
+            $query = $query->orderBy($orderByColumn, 'desc');
+        } else {
+            $query = $query->orderBy($orderByColumn, 'asc');
+        }
+
+        if ($limit) {
+            $query = $query->limit($limit);
+        }
+
+        if ($paginate) {
+            return $query->paginate($paginate);
+        }
+
+        return $query->get();
+    }
+
+    public function addSearchQuery($query, $searches = [])
+    {
+        if (count($searches)) {
+            foreach ($searches as $column => $value) {
+                $query = $query->where($column, 'LIKE', "%{$value}%");
+            }
+        }
+
+        return $query;
+    }
+
+    public function addFilterQuery($query, $filters = [])
+    {
+        if (count($filters)) {
+            foreach ($filters as $column => $value) {
+                $query = $query->where($column, $value);
+            }
+        }
+
+        return $query;
+    }
+
     public function find($id, $status = null)
     {
-        if (Schema::hasColumn($this->getModelTable(), 'status')) {
+        if (Helper::tableHasColumn($this->getModelTable(), 'status')) {
             return $this->getItem($id, $status);
         } else {
             return $this->model->where([

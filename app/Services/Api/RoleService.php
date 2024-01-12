@@ -22,7 +22,7 @@ class RoleService extends BaseService
             $this->attributes['orderBy'] ?? 'updated_at',
             $this->attributes['orderDesc'] ?? true,
             $this->attributes['limit'] ?? null,
-            $this->attributes['paginate'] ?? 50
+            $this->attributes['pageSize'] ?? 50
         );
     }
 

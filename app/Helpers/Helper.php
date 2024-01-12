@@ -5,6 +5,7 @@ namespace App\Helpers;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use DateTime;
@@ -245,5 +246,14 @@ class Helper
         }
 
         return -1;
+    }
+
+    public static function tableHasColumn($tableName, $columnName)
+    {
+        if (Schema::hasColumn($tableName, $columnName)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

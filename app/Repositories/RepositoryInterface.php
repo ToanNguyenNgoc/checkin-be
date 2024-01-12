@@ -25,6 +25,10 @@ interface RepositoryInterface
 
     public function getList($status = null, $orderByColumn = 'updated_at', $orderByDesc = true, $limit = 0, $paginate = 50);
 
+    public function addSearchQuery($query, $searches = []);
+
+    public function addFilterQuery($query, $filters = []);
+
     /**
      * Get one
      * @param $id

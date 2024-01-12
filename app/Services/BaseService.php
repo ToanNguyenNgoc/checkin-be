@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 
+use App\Helpers\Helper;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Exception;
@@ -8,6 +9,8 @@ use ZipArchive;
 
 class BaseService
 {
+    public $searches = [];
+    public $filters = [];
     public $attributes;
     public $repo;
 
@@ -39,7 +42,7 @@ class BaseService
             $this->attributes['orderBy'] ?? 'updated_at',
             $this->attributes['orderDesc'] ?? true,
             $this->attributes['limit'] ?? null,
-            $this->attributes['paginate'] ?? 50
+            $this->attributes['pageSize'] ?? 50
         );
     }
 
@@ -107,5 +110,35 @@ class BaseService
         }
 
         return false;
+    }
+
+    public function getSearch()
+    {
+        $table = $this->repo->getModelTable();
+
+        if (isset($this->attributes['search']) && count($this->attributes['search'])) {
+            foreach ($this->attributes['search'] as $key => $value) {
+                if (Helper::tableHasColumn($table, $key) && !empty($value)) {
+                    $this->searches[$key] = $value;
+                }
+            }
+        }
+
+        return $this->searches;
+    }
+
+    public function getFilters()
+    {
+        $table = $this->repo->getModelTable();
+
+        if (isset($this->attributes['filters']) && count($this->attributes['filters'])) {
+            foreach ($this->attributes['filters'] as $key => $value) {
+                if (Helper::tableHasColumn($table, $key) && !empty($value)) {
+                    $this->filters[$key] = $value;
+                }
+            }
+        }
+
+        return $this->filters;
     }
 }

@@ -38,7 +38,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
 
     /* USER */
     Route::get('/self', [UserController::class, 'user']);
-    Route::get('/users', [UserController::class, 'index'])->middleware('permission:user:view');
+    Route::get('/users', [UserController::class, 'list'])->middleware('permission:user:view');
     Route::get('/user/{id}', [UserController::class, 'detail'])->middleware('permission:user:view');
 
     /* COMPANY */
