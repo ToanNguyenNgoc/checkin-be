@@ -15,8 +15,6 @@ class AssignToRoleRequest extends BaseFormRequest
     {
         return [
             'role_id'           => ['required', 'numeric', 'min:1'],
-            'permission_ids'    => ['required', 'array', 'min:1'],
-            'permission_ids.*'  => ['required', 'numeric', 'distinct'],
         ];
     }
 }
