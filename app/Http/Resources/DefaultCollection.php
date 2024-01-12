@@ -1,12 +1,15 @@
 <?php
 
-namespace App\Http\Resources--CollectionPath--;
+namespace App\Http\Resources;
 
-use App\Http\Resources\BaseCollection;
 use Illuminate\Http\Request;
 
-class --CollectionName-- extends BaseCollection
+class DefaultCollection extends BaseCollection
 {
+    protected $attrOnly;
+    protected $attrMores;
+    protected $attrExcepts;
+
     /**
      * Transform the resource collection into an array.
      *
@@ -16,9 +19,8 @@ class --CollectionName-- extends BaseCollection
     {
         return [
             'count'         => $this->collection->count(),
-            'collection'    => $this->collection->map(function($data) {
-
-            })
+            'collection'    => parent::toArray($request),
+            'pagination'    => $this->getPaginateMeta(),
         ];
     }
 }
