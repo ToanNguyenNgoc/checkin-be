@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Api\Event;
 
 use App\Http\Requests\BaseFormRequest;
-use Illuminate\Validation\Rule;
 
 class StoreRequest extends BaseFormRequest
 {
@@ -30,7 +29,7 @@ class StoreRequest extends BaseFormRequest
 
         if (empty($this->id)) {
             $ruleMores = [
-                'company_id'    => ['required', 'numeric', Rule::exists('companys', 'id')],
+                'company_id'    => ['required', 'numeric', $this->tableHasId('companys')],
                 'code'          => ['required', 'string', 'max:200'],
                 'name'          => ['required', 'string', 'max:255'],
                 'from_date'     => ['required', 'date'],

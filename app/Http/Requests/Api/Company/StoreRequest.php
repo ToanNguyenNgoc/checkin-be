@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Api\Company;
 
 use App\Http\Requests\BaseFormRequest;
-use Illuminate\Validation\Rule;
 
 class StoreRequest extends BaseFormRequest
 {
@@ -16,7 +15,7 @@ class StoreRequest extends BaseFormRequest
     {
         return [
             'id'                => ['nullable', 'numeric'],
-            'parent_id'         => ['nullable', 'numeric', Rule::exists('companys', 'id')],
+            'parent_id'         => ['nullable', 'numeric', $this->tableHasId('companys')],
             'is_default'        => ['nullable', 'boolean'],
             'name'              => ['required', 'string', 'max:255'],
             'limited_users'     => ['nullable', 'numeric', 'min:1'],

@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Api\Company;
 
 use App\Http\Requests\BaseFormRequest;
-use Illuminate\Validation\Rule;
 
 class AssignCompanyRequest extends BaseFormRequest
 {
@@ -15,8 +14,8 @@ class AssignCompanyRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'id'            => ['required', 'numeric', Rule::exists('companys', 'id')],
-            'company_id'    => ['nullable', 'numeric', Rule::exists('companys', 'id')],
+            'id'            => ['required', 'numeric', $this->tableHasId('companys')],
+            'company_id'    => ['nullable', 'numeric', $this->tableHasId('companys')],
         ];
     }
 }
