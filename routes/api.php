@@ -68,5 +68,4 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::get('/permissions/self', [PermissionController::class, 'getListFromCurrentUser'])->middleware('permission:user_permission:view');
     Route::get('/permissions/role/{roleId}', [PermissionController::class, 'getListFromRole'])->middleware('permission:user_permission:view');
     Route::post('/permission/assign', [PermissionController::class, 'assignToRole'])->middleware('permission:user_permission:assign-to-role');
-    Route::delete('/permission/revoke/{roleId}', [PermissionController::class, 'revokeFromRole'])->middleware('permission:user_permission:revoke-from-role');
 });

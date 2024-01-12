@@ -28,12 +28,19 @@ class RoleService extends BaseService
 
     public function store()
     {
-        $role = $this->store([
-            'name'          => $this->attributes['name'],
-            'guard_name'    => $this->attributes['guard_name'] ?? 'api'
-        ]);
+        $id = isset($this->attributes['id']) ? (int)($this->attributes['id']) : null;
 
-        return $role;
+        if (empty($id)) {
+            $model = $this->repo->create($this->attributes);
+        } else {
+            $model = $this->repo->find($id);
+
+            if (!empty($model)) {
+                $model->update($this->attributes);
+            }
+        }
+
+        return $model ?? false;
     }
 
     public function assign()

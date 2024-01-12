@@ -59,22 +59,4 @@ class PermissionService extends BaseService
 
         return false;
     }
-
-    public function revokeFromRole($roleId)
-    {
-        $permissionIds = $this->attributes['permission_ids'];
-        $role = $this->role()->find($roleId);
-
-        if ($role) {
-            $permissions = $this->repo->getCollectionByIds($permissionIds);
-
-            foreach ($permissions as $permission) {
-                $role->revokePermissionTo($permission);
-            }
-
-            return true;
-        }
-
-        return false;
-    }
 }
