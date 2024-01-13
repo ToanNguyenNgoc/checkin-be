@@ -40,6 +40,8 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::get('/self', [UserController::class, 'user']);
     Route::get('/users', [UserController::class, 'list'])->middleware('permission:user:view');
     Route::get('/user/{id}', [UserController::class, 'detail'])->middleware('permission:user:view');
+    Route::post('/user/store', [UserController::class, 'store'])->middleware('permission:user:create');
+    Route::delete('/user/delete/{id}', [UserController::class, 'remove'])->middleware('permission:user:delete');
 
     /* COMPANY */
     Route::get('/companys', [CompanyController::class, 'index'])->middleware('permission:company:view');

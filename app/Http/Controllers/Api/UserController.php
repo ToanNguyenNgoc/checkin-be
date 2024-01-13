@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 use App\Services\Api\UserService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\User\ListRequest;
+use App\Http\Requests\Api\User\StoreRequest;
 use App\Http\Resources\User\SelfResource;
 use App\Http\Resources\User\UserCollection;
 use App\Http\Resources\User\UserResource;
@@ -37,6 +38,20 @@ class UserController extends Controller
     {
         if ($model = $this->service->getDetail($id)) {
             return $this->responseSuccess(UserResource::make($model), trans('_response.success.detail'));
+        } else {
+            return $this->responseError([
+                'message' => trans('_response.failed.400')
+            ], 400);
+        }
+    }
+
+    
+    public function store(StoreRequest $request)
+    {
+        $this->service->attributes = $request->all();
+        
+        if ($model = $this->service->store()) {
+            return $this->responseSuccess(new UserResource($model), trans('_response.success.store'));
         } else {
             return $this->responseError([
                 'message' => trans('_response.failed.400')
