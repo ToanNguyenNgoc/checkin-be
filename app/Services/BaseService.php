@@ -127,7 +127,7 @@ class BaseService
         return $this->searches;
     }
 
-    public function getFilters()
+    public function getFilters($filterMores = [])
     {
         $table = $this->repo->getModelTable();
 
@@ -135,6 +135,14 @@ class BaseService
             foreach ($this->attributes['filters'] as $key => $value) {
                 if (Helper::tableHasColumn($table, $key) && !empty($value)) {
                     $this->filters[$key] = $value;
+                }
+            }
+
+            if (count($filterMores)) {
+                foreach ($filterMores as $key) {
+                    if (!empty($value = $this->attributes['filters'][$key] ?? null)) {
+                        $this->filters[$key] = $value;
+                    }
                 }
             }
         }

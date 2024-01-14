@@ -24,7 +24,37 @@ class UserRepository extends Repository implements UserRepositoryInterface
         }
 
         $query = $this->addSearchQuery($query, $searches);
-        $query = $this->addFilterQuery($query, $filters);
+
+        /* FILTER */
+
+        if (count($filters)) {
+            if (isset($filters['status'])) {
+                $query = $query->where('status', $filters['status']);
+            }
+
+            if (isset($filters['type'])) {
+                $query = $query->where('type', $filters['type']);
+            }
+
+            if (isset($filters['gate'])) {
+                $query = $query->where('gate', $filters['gate']);
+            }
+
+            if (isset($filters['from_date'])) {
+                $query = $query->whereDate('created_at', '>=', $filters['from_date']);
+            }
+
+            if (isset($filters['to_date'])) {
+                $query = $query->whereDate('created_at', '<=', $filters['to_date']);
+            }
+
+            if (isset($filters['role_id'])) {
+                $roleId = $filters['role_id'];
+                $query = $query->whereHas('roles', function ($query) use ($roleId) {
+                    $query->where('id', $roleId);
+                });
+            }
+        }
 
         if ($limit > 0) {
             $query = $query->limit($limit);

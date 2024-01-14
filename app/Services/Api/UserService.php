@@ -2,8 +2,8 @@
 namespace App\Services\Api;
 
 use App\Repositories\User\UserRepository;
-use App\Services\BaseService;
 use Illuminate\Support\Facades\Hash;
+use App\Services\BaseService;
 use Illuminate\Support\Str;
 
 class UserService extends BaseService
@@ -20,9 +20,13 @@ class UserService extends BaseService
 
     public function getList()
     {
+        $filterMores = [
+            'role_id'
+        ];
+        
         return $this->repo->getList(
             $this->getSearch(),
-            $this->getFilters(),
+            $this->getFilters($filterMores),
             $this->attributes['orderBy'] ?? 'updated_at',
             $this->attributes['orderDesc'] ?? true,
             $this->attributes['limit'] ?? null,
