@@ -3,12 +3,19 @@ namespace App\Services\Api;
 
 use App\Repositories\User\UserRepository;
 use App\Services\BaseService;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserService extends BaseService
 {
     public function __construct()
     {
         $this->repo = new UserRepository();
+    }
+
+    public function role()
+    {
+        return new RoleService();
     }
 
     public function getList()
@@ -32,5 +39,40 @@ class UserService extends BaseService
         }
 
         return null;
+    }
+
+    public function store()
+    {
+        $attrs = [
+            'name'              => $this->attributes['name'],
+            'username'          => $this->attributes['username'],
+            'email'             => $this->attributes['email'],
+            'password'          => Hash::make(Str::random(20)),
+            'status'            => $this->attributes['status'],
+        ];
+
+        $roleId = $this->attributes['role_id'];
+        $role = $this->role()->find($roleId);
+
+        if (!isset($this->attributes['id'])) {
+            $attrMores = [
+                'created_by'    => auth()->user()->id,
+                'updated_by'    => auth()->user()->id
+            ];
+
+            $user = $this->repo->create(array_merge($attrs, $attrMores));
+            $user->syncRoles([$role->name]);
+
+        } else {
+            $attrMores = [
+                'id'            => $this->attributes['id'],
+                'updated_by'    => auth()->user()->id,
+            ];
+
+            $user = $this->repo->update($this->attributes['id'], array_merge($attrs, $attrMores));
+            $user->syncRoles([$role->name]);
+        }
+
+        return $user;
     }
 }
