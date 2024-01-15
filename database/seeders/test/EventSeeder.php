@@ -16,7 +16,8 @@ class EventSeeder extends Seeder
     public function run()
     {
         $company = Company::where([
-            'code' => 'DEFLIVN'
+            'is_default'    => true,
+            'code'          => 'DEFLIVN'
         ])->first();
 
         if (empty($company)) return;

@@ -51,6 +51,7 @@ class Company extends BaseModel
 	protected $fillable = [
 		'parent_id',
 		'is_default',
+		'code',
 		'name',
         'contact_email',
         'contact_phone',
