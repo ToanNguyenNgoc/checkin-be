@@ -17,6 +17,7 @@ class StoreRequest extends BaseFormRequest
             'id'                => ['nullable', 'numeric'],
             'parent_id'         => ['nullable', 'numeric', $this->tableHasId('companys')],
             'is_default'        => ['nullable', 'boolean'],
+            'code'              => ['required', 'string', 'max:200'],
             'name'              => ['required', 'string', 'max:255'],
             'contact_email'     => ['nullable', 'string', 'max:255'],
             'contact_phone'     => ['nullable', 'string', 'max:255'],

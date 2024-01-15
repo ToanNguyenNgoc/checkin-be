@@ -18,6 +18,9 @@ return new class extends Migration
             $table->boolean('is_default')
                 ->default(false)
                 ->nullable(false);
+            $table->string('code', 200)
+                ->nullable(false)
+                ->unique();
             $table->string('name', 255)
                 ->nullable(false);
             $table->string('contact_email', 255)

@@ -24,6 +24,7 @@ class CompanyService extends BaseService
 
         if (!isset($this->attributes['id'])) {
             $attrMores = [
+                'code'          => $this->attributes['code'],
                 'parent_id'     => $this->attributes['parent_id'] ?? null,
                 'created_by'    => auth()->user()->id,
                 'updated_by'    => auth()->user()->id

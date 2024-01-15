@@ -16,6 +16,8 @@ class DatabaseSeeder extends Seeder
             \Database\Seeders\Fakes\UserSeeder::class,
             RolesAndPermissionsSeeder::class,
             SystemAdminSeeder::class,
+            \Database\Seeders\test\CompanySeeder::class,
+            \Database\Seeders\test\EventSeeder::class,
         ]);
     }
 }
