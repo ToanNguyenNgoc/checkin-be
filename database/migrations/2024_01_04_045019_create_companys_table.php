@@ -20,6 +20,16 @@ return new class extends Migration
                 ->nullable(false);
             $table->string('name', 255)
                 ->nullable(false);
+            $table->string('contact_email', 255)
+                ->nullable();
+            $table->string('contact_phone', 255)
+                ->nullable();
+            $table->string('website', 255)
+                ->nullable();
+            $table->string('address', 255)
+                ->nullable();
+            $table->string('city', 255)
+                ->nullable();
             $table->integer('limited_users')
                 ->nullable();
             $table->integer('limited_events')
