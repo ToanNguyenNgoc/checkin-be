@@ -29,15 +29,33 @@ class UserRepository extends Repository implements UserRepositoryInterface
 
         if (count($filters)) {
             if (isset($filters['status'])) {
-                $query = $query->where('status', $filters['status']);
+                if (is_array($filters['status'])) {
+                    $query = $query->whereIn('status', $filters['status']);
+                } else {
+                    $query = $query->where([
+                        'status' => $filters['status']
+                    ]);
+                }
             }
 
             if (isset($filters['type'])) {
-                $query = $query->where('type', $filters['type']);
+                if (is_array($filters['type'])) {
+                    $query = $query->whereIn('type', $filters['type']);
+                } else {
+                    $query = $query->where([
+                        'type' => $filters['type']
+                    ]);
+                }
             }
 
             if (isset($filters['gate'])) {
-                $query = $query->where('gate', $filters['gate']);
+                if (is_array($filters['gate'])) {
+                    $query = $query->whereIn('gate', $filters['gate']);
+                } else {
+                    $query = $query->where([
+                        'gate' => $filters['gate']
+                    ]);
+                }
             }
 
             if (isset($filters['from_date'])) {

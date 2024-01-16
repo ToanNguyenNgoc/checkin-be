@@ -21,9 +21,11 @@ class UserService extends BaseService
     public function getList()
     {
         $filterMores = [
-            'role_id'
+            'role_id',
+            'from_date',
+            'to_date'
         ];
-        
+
         return $this->repo->getList(
             $this->getSearch(),
             $this->getFilters($filterMores),
