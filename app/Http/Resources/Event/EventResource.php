@@ -25,7 +25,7 @@ class EventResource extends BaseResource
         ];
 
         $this->attrMores = [
-            'client_count'  => $this->client()->getListByEventId($this->id),
+            'client_count'  => $this->client()->getClientsByEventId($this->id)->count(),
             'from_date'     => Helper::getDateFormat($this->from_date),
             'end_date'      => Helper::getDateFormat($this->end_date),
         ];
