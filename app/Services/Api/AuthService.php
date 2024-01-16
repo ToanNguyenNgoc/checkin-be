@@ -44,7 +44,7 @@ class AuthService extends BaseService
             ];
         }
 
-        if ($this->repo->checkValidUserStatusByEmail($credentials['email'])) {
+        if ($this->repo->checkGrantedUserStatusByEmail($credentials['email'])) {
             $this->repo->user()->update([
                 'last_login_at' => now()->toDateTimeString(),
             ]);

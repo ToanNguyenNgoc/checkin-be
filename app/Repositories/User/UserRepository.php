@@ -106,9 +106,9 @@ class UserRepository extends Repository implements UserRepositoryInterface
         return $query->first();
     }
 
-    public function checkValidUserStatusByEmail($email)
+    public function checkGrantedUserStatusByEmail($email)
     {
-        $query = $this->model->whereIn('status', $this->model->getStatuesValid());
+        $query = $this->model->whereIn('status', $this->model->getStatuesGranted());
         $query = $query->where('email', $email);
         return $query->first();
     }

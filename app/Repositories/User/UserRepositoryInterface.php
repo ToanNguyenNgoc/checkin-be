@@ -9,5 +9,5 @@ interface UserRepositoryInterface extends RepositoryInterface
 
     public function find($id, $status = null);
 
-    public function checkValidUserStatusByEmail($email);
+    public function checkGrantedUserStatusByEmail($email);
 }
