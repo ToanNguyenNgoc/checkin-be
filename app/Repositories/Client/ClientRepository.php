@@ -68,7 +68,7 @@ class ClientRepository extends Repository implements ClientRepositoryInterface
         return $query->get();
     }
 
-    public function getListByEventId($eventId, $searches = [], $filters = [], $orderByColumn = 'updated_at', $orderByDesc = true, $limit = 0, $paginate = 50)
+    public function getClientsByEventId($eventId, $searches = [], $filters = [], $orderByColumn = 'updated_at', $orderByDesc = true, $limit = 0, $paginate = 50)
     {
         $query = $this->model->where('status', '!=', $this->model::STATUS_DELETED)
                             ->where('event_id', '=', $eventId);
@@ -126,16 +126,16 @@ class ClientRepository extends Repository implements ClientRepositoryInterface
         return $query->get();
     }
 
-    public function getDetailByEventIdQrcode($eventId, $qrcode, $status = null)
+    public function getClientByEventIdQrcode($eventId, $qrcode, $status = null)
     {
         $query = $this->model->where('status', '!=', $this->model::STATUS_DELETED)
                             ->where('event_id', $eventId);
 
-        $query = $this->getDetailByQrcode($qrcode, $status, true, $query);
+        $query = $this->getClientByQrcode($qrcode, $status, true, $query);
         return $query->first();
     }
 
-    public function getDetailByQrcode($qrcode, $status = null, $buildQuery = false, $query = null)
+    public function getClientByQrcode($qrcode, $status = null, $buildQuery = false, $query = null)
     {
         if ($buildQuery) {
             $query = $query->where('qrcode', $qrcode);

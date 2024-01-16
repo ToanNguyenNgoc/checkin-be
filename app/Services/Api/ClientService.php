@@ -29,14 +29,14 @@ class ClientService extends BaseService
         );
     }
 
-    public function getListByEventId($eventId)
+    public function getClientsByEventId($eventId)
     {
         $filterMores = [
             'from_date',
             'to_date'
         ];
 
-        return $this->repo->getListByEventId(
+        return $this->repo->getClientsByEventId(
             $eventId,
             $this->getSearch(),
             $this->getFilters($filterMores),
