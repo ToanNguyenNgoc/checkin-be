@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             \Database\Seeders\Fakes\UserSeeder::class,
             RolesAndPermissionsSeeder::class,
+            CountrySeeder::class,
             SystemAdminSeeder::class,
             \Database\Seeders\test\CompanySeeder::class,
             \Database\Seeders\test\EventSeeder::class,
