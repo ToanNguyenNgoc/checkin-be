@@ -3,7 +3,8 @@
 namespace App\Http\Requests\Api\User;
 
 use App\Http\Requests\BaseFormRequest;
-use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Models\User;
 
 class StoreRequest extends BaseFormRequest
 {
@@ -20,7 +21,7 @@ class StoreRequest extends BaseFormRequest
             'name'              => ['required', 'string', 'max:255'],
             'username'          => ['required', 'string', 'max:255'],
             'email'             => ['required', 'string', 'max:255'],
-            'status'            => ['required', 'string', 'max:50'],
+            'status'            => ['required', 'string', 'max:50', Rule::in(array_keys(User::getStatuesValid()))],
         ];
     }
 }

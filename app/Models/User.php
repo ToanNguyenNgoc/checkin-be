@@ -80,6 +80,12 @@ class User extends Authenticatable
         self::STATUS_DELETED        => 'Deleted',
     ];
 
+    const STATUES_VALID = [
+        self::STATUS_NEW            => 'New',
+        self::STATUS_ACTIVE         => 'Active',
+        self::STATUS_INACTIVE       => 'In-Active',
+    ];
+
     const STATUES_GRANTED = [
         self::STATUS_NEW            => 'New',
         self::STATUS_ACTIVE         => 'Active',
@@ -245,6 +251,11 @@ class User extends Authenticatable
     public function getStatusText()
     {
         return self::STATUES[$this->status];
+    }
+
+    static public function getStatuesValid()
+    {
+        return self::STATUES_VALID;
     }
 
     static public function getStatuesGranted()

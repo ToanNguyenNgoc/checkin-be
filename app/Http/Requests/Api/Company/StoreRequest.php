@@ -4,6 +4,7 @@ namespace App\Http\Requests\Api\Company;
 
 use App\Http\Requests\BaseFormRequest;
 use Illuminate\Validation\Rule;
+use App\Models\Company;
 
 class StoreRequest extends BaseFormRequest
 {
@@ -28,6 +29,7 @@ class StoreRequest extends BaseFormRequest
             'limited_users'     => ['nullable', 'numeric', 'min:1'],
             'limited_events'    => ['nullable', 'numeric', 'min:1'],
             'limited_campaigns' => ['nullable', 'numeric', 'min:1'],
+            'status'            => ['nullable', 'string', 'max:50', Rule::in(array_keys(Company::getStatuesValid()))],
         ];
 
         if (empty($this->id)) {

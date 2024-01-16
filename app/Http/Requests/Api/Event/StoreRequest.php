@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Api\Event;
 
 use App\Http\Requests\BaseFormRequest;
+use Illuminate\Validation\Rule;
+use App\Models\Event;
 
 class StoreRequest extends BaseFormRequest
 {
@@ -25,6 +27,7 @@ class StoreRequest extends BaseFormRequest
             'contact_phone'     => ['nullable', 'string', 'max:255'],
             'note'              => ['nullable', 'string', 'max:255'],
             'encrypt_file_link' => ['nullable', 'boolean'],
+            'status'            => ['nullable', 'string', 'max:50', Rule::in(array_keys(Event::getStatuesValid()))],
         ];
 
         if (empty($this->id)) {
