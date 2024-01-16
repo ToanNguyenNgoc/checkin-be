@@ -163,6 +163,59 @@ class Event extends BaseModel
         return self::MAIN_FIELDS;
     }
 
+    public function getFont($fontKey)
+    {
+        return self::getFonts()[$fontKey];
+    }
+
+    public function getFonts()
+    {
+        return [
+            'ROBOTO' => [
+                'name'      => 'Roboto',
+                'path'      => 'roboto.ttf',
+                'link'      => 'https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Roboto:ital,wght@0,100;1,100&display=swap',
+                'styles'    => [
+                    'default'   => 'roboto.ttf',
+                    'bold'      => 'roboto-bold.ttf',
+                    'italic'    => 'roboto-italic.ttf',
+                ]
+            ],
+            'ARIAL' => [
+                'name'      => 'Arial',
+                'path'      => 'arial.ttf',
+                'link'      => '',
+                'styles'    => [
+                    'default'   => 'arial.ttf',
+                    'bold'      => 'arial-bold.ttf',
+                    'italic'    => 'arial-italic.ttf',
+                ]
+            ],
+            'TIME_NEW_ROMAIN' => [
+                'name'      => 'Times New Roman',
+                'path'      => 'times-new-roman.ttf',
+                'link'      => '',
+                'styles'    => [
+                    'default'   => 'times-new-roman.ttf',
+                    'bold'      => 'times-new-roman-bold.ttf',
+                    'italic'    => 'times-new-roman-italic.ttf',
+                ]
+            ],
+        ];
+    }
+
+    public function fonts()
+    {
+        $fonts = [];
+        $defaultFonts = self::getFonts();
+
+        foreach ($defaultFonts as $key => $font) {
+            $fonts[$key] = $font['name'];
+        }
+
+        return $fonts;
+    }
+
     /* FUNCTIONS */
 
     public function getAttributeDetailTemplate()
@@ -186,7 +239,7 @@ class Event extends BaseModel
             ],
             "font"      => [
                 "type"      => "select",
-                "options"   => "...",
+                "options"   => self::fonts(),
                 "default"   => "ARIAL",
             ],
             "color"     => [
