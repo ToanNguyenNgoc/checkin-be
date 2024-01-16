@@ -25,6 +25,7 @@ class CompanyService extends BaseService
             'limited_users'     => $this->attributes['limited_users'] ?? null,
             'limited_events'    => $this->attributes['limited_events'] ?? null,
             'limited_campaigns' => $this->attributes['limited_campaigns'] ?? null,
+            'status'            => $this->attributes['status'] ?? null,
         ];
 
         if (!isset($this->attributes['id'])) {

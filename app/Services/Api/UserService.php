@@ -54,7 +54,7 @@ class UserService extends BaseService
             'username'          => $this->attributes['username'],
             'email'             => $this->attributes['email'],
             'password'          => Hash::make(Str::random(20)),
-            'status'            => $this->attributes['status'],
+            'status'            => $this->attributes['status'] ?? null,
         ];
 
         $roleId = $this->attributes['role_id'];
