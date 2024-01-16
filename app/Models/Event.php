@@ -222,22 +222,32 @@ class Event extends BaseModel
         ];
     }
 
-    public function getFieldTemplate()
+    public function getFieldInputTemplate()
     {
         $template = [
-            "field"         => "",
-            "desc"          => "",
-            "order"         => "",
-            "is_main"       => false,
+            "field"         => [
+                "type"      => "text",
+                "rule"      => "readonly",
+            ],
+            "desc"          => [
+                "type"      => "text"
+            ],
+            "order"         => [
+                "type"      => "hidden"
+            ],
+            "is_main"       => [
+                "type"      => "hidden",
+                "default"   => true
+            ],
             "attributes"    => [
-                "desktop",
-                "mobile",
-                "tablet",
+                "desktop"   => [],
+                "mobile"    => [],
+                "tablet"    => [],
             ],
         ];
 
-        foreach ($template['attributes'] as $key) {
-            $template[$key] = $this->getAttributeDetailTemplate();
+        foreach ($template['attributes'] as $key => $detail) {
+            $template['attributes'][$key] = $this->getAttributeDetailTemplate();
         }
 
         return $template;
@@ -258,9 +268,9 @@ class Event extends BaseModel
                 "order"         => $order,
                 "is_main"       => true,
                 "attributes"    => [
-                    "desktop"       => $defaultDetailAttributes,
-                    "mobile"        => $defaultDetailAttributes,
-                    "tablet"        => $defaultDetailAttributes,
+                    "desktop"   => $defaultDetailAttributes,
+                    "mobile"    => $defaultDetailAttributes,
+                    "tablet"    => $defaultDetailAttributes,
                 ],
             ];
 
@@ -269,4 +279,15 @@ class Event extends BaseModel
 
         return $mainFieldTemplate;
     }
+
+    /* public function processFields($fieldTemplates)
+    {
+        $result = [];
+
+        foreach ($fieldTemplates as $key => $template) {
+            $result[$template['field']] = $template;
+        }
+
+        return $result;
+    } */
 }
