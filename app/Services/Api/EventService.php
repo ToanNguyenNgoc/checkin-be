@@ -74,7 +74,7 @@ class EventService extends BaseService
         if ($event) {
             return [
                 'id'            => $event->id,
-                'template'      => $event->getFieldTemplate(),
+                'template'      => $event->getFieldInputTemplate(),
                 'main_fields'   => !empty($event->main_field_templates) ? $event->main_field_templates : $event->buildDefaultMainFieldTemplate(),
                 'custom_fields' => $event->custom_field_templates
             ];
