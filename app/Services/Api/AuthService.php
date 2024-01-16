@@ -36,7 +36,7 @@ class AuthService extends BaseService
         $credentials['email'] = trim($this->attributes['email']);
         $credentials['password'] = trim($this->attributes['password']);
 
-        if (!Auth::attempt($credentials)) {
+        if (!Auth::guard('api')->attempt($credentials)) {
             RateLimiter::hit($this->throttleKey());
             return [
                 'auth'  => false,
