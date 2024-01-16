@@ -38,8 +38,6 @@ class Country extends BaseModel
 
 	protected $casts = [
 		'is_default' => 'bool',
-		'created_by' => 'int',
-		'updated_by' => 'int'
 	];
 
 	protected $fillable = [
@@ -50,14 +48,7 @@ class Country extends BaseModel
 		'flag_link',
 		'alt',
 		'status',
-		'created_by',
-		'updated_by'
 	];
-
-	public function user()
-	{
-		return $this->belongsTo(User::class, 'updated_by');
-	}
 
 	public function clients()
 	{

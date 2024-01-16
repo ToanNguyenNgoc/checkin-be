@@ -1,10 +1,9 @@
 <?php
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Services\Api\CountryService;
-use App\Models\Country;
 use App\Http\Controllers\Controller;
+use Exception;
 
 class CountryController extends Controller
 {
@@ -13,13 +12,23 @@ class CountryController extends Controller
         $this->service = $service;
     }
 
-    public function index()
+    public function getDefaultCountry()
     {
         
     }
 
-    public function detail($id)
+    public function fetchGobalCountry()
     {
-        
+        try {
+            $result = $this->service->fetchGobalCountry();
+
+            if ($result['success']) {
+                return $this->responseSuccess(null, $result['msg']);
+            } else {
+                return $this->responseError($result['msg']);
+            }
+        } catch (Exception $e) {
+            return $this->responseError($e);
+        }
     }
 }

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('countrys', function (Blueprint $table) {
             $table->id();
-            $table->string('code')
-                ->unique();
+            $table->string('code', 200)
+                ->nullable(false);
             $table->string('name')
                 ->nullable(false);
             $table->boolean('is_default')
@@ -23,30 +23,17 @@ return new class extends Migration
                 ->nullable();
             $table->string('flag_link')
                 ->nullable();
-            $table->string('alt')
+            $table->text('alt')
                 ->nullable();
             $table->string('status', 50)
                 ->default('ACTIVE')
                 ->nullable(false);
-            $table->foreignId('created_by')
-                ->nullable();
-            $table->foreignId('updated_by')
-                ->nullable();
             $table->timestamps();
 
             /* INDEX */
             $table->index('id', 'idx_id');
             $table->index('code', 'idx_code');
-
-            /* RELATIONSHIP */
-            $table->foreign('created_by')
-                ->references('id')
-                ->on('users')
-                ->onDelete('set null');
-            $table->foreign('updated_by')
-                ->references('id')
-                ->on('users')
-                ->onDelete('set null');
+            $table->index('name', 'idx_name');
         });
     }
 
