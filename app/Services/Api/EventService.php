@@ -25,6 +25,7 @@ class EventService extends BaseService
             'contact_name'      => $this->attributes['contact_name'] ?? null,
             'contact_email'     => $this->attributes['contact_email'] ?? null,
             'contact_phone'     => $this->attributes['contact_phone'] ?? null,
+            'status'            => $this->attributes['status'],
         ];
 
         if (!isset($this->attributes['id'])) {
@@ -41,7 +42,7 @@ class EventService extends BaseService
             $attrMores = [
                 'id'            => $this->attributes['id'],
                 'updated_by'    => auth()->user()->id,
-                'status'        => Event::STATUS_ACTIVE
+                'status'        => $this->attributes['status']
             ];
         }
 
