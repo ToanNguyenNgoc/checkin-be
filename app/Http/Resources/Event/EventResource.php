@@ -4,10 +4,15 @@ namespace App\Http\Resources\Event;
 
 use App\Helpers\Helper;
 use App\Http\Resources\BaseResource;
+use App\Services\Api\ClientService;
 use Illuminate\Http\Request;
 
 class EventResource extends BaseResource
 {
+    public function client()
+    {
+        return new ClientService();
+    }
     /**
      * Transform the resource into an array.
      *
@@ -20,8 +25,9 @@ class EventResource extends BaseResource
         ];
 
         $this->attrMores = [
-            'from_date' => Helper::getDateFormat($this->from_date),
-            'end_date'  => Helper::getDateFormat($this->end_date),
+            'client_count'  => $this->client()->getListByEventId($this->id),
+            'from_date'     => Helper::getDateFormat($this->from_date),
+            'end_date'      => Helper::getDateFormat($this->end_date),
         ];
 
         $this->attrExcepts = [
