@@ -38,11 +38,11 @@ class Organizer extends BaseModel
 	protected $table = 'organizers';
 
 	protected $casts = [
-		'country_id' => 'int',
-		'event_id' => 'int',
-		'custom_fields' => 'json',
-		'created_by' => 'int',
-		'updated_by' => 'int'
+		'country_id'        => 'int',
+		'event_id'          => 'int',
+		'custom_fields'     => 'json',
+		'created_by'        => 'int',
+		'updated_by'        => 'int'
 	];
 
 	protected $fillable = [

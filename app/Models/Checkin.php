@@ -39,12 +39,12 @@ class Checkin extends BaseModel
 	protected $table = 'checkins';
 
 	protected $casts = [
-		'event_id' => 'int',
-		'user_id' => 'int',
-		'params' => 'json',
-		'scan_time' => 'datetime',
-		'created_by' => 'int',
-		'updated_by' => 'int'
+		'event_id'      => 'int',
+		'user_id'       => 'int',
+		'params'        => 'json',
+		'scan_time'     => 'datetime',
+		'created_by'    => 'int',
+		'updated_by'    => 'int'
 	];
 
 	protected $fillable = [
