@@ -16,6 +16,11 @@ class CompanyService extends BaseService
     {
         $attrs = [
             'name'              => $this->attributes['name'],
+            'contact_email'     => $this->attributes['contact_email'] ?? null,
+            'contact_phone'     => $this->attributes['contact_phone'] ?? null,
+            'website'           => $this->attributes['website'] ?? null,
+            'address'           => $this->attributes['address'] ?? null,
+            'city'              => $this->attributes['city'] ?? null,
             'is_default'        => $this->attributes['is_default'] ?? false,
             'limited_users'     => $this->attributes['limited_users'] ?? null,
             'limited_events'    => $this->attributes['limited_events'] ?? null,
