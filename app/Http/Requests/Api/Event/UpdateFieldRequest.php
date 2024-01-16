@@ -15,7 +15,7 @@ class UpdateFieldRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            // 'id'            => ['required', 'numeric', Rule::exists('events', 'id')],
+            'event_id'         => ['required', 'numeric', Rule::exists('events', 'id')],
             // 'main_fields'   => ['required', 'array'],
             // 'custom_fields' => ['required', 'array'],
         ];

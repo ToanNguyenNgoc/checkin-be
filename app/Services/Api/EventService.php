@@ -3,7 +3,6 @@ namespace App\Services\Api;
 
 use App\Repositories\Event\EventRepository;
 use App\Services\BaseService;
-use App\Models\Event;
 
 class EventService extends BaseService
 {
@@ -25,7 +24,7 @@ class EventService extends BaseService
             'contact_name'      => $this->attributes['contact_name'] ?? null,
             'contact_email'     => $this->attributes['contact_email'] ?? null,
             'contact_phone'     => $this->attributes['contact_phone'] ?? null,
-            'status'            => $this->attributes['status'],
+            'status'            => $this->attributes['status'] ?? null,
         ];
 
         if (!isset($this->attributes['id'])) {
@@ -80,29 +79,56 @@ class EventService extends BaseService
             ];
         }
 
-        return null;
+        return [];
     }
 
     public function updateFieldTemplate()
     {
-        $id = $this->attributes['id'];
+        $id = $this->attributes['event_id'];
         $event = $this->find($id);
 
         if ($event) {
-            /* if (!empty($this->attributes['main_fields']) && count($this->attributes['main_fields'])) {
-                foreach ($this->attributes['main_fields'] as $key => $attributes) {
+            $mainFieldTemplates = $event->main_field_templates;
 
+            if (!empty($this->attributes['data']['main_fields'])) {
+                $requestMainFieldTemplates = $this->attributes['data']['main_fields'];
+
+                foreach ($requestMainFieldTemplates as $field => $requestMainFieldTemplate) {
+                    if (isset($mainFieldTemplates[$field])) {
+                        $mainFieldTemplates[$field]['desc'] = $requestMainFieldTemplate['desc'];
+                        $mainFieldTemplates[$field]['attributes'] = $requestMainFieldTemplate['attributes'];
+                    }
                 }
+
+                $event->update([
+                    'main_field_templates' => $mainFieldTemplates
+                ]);
+            }
+
+            $customFieldTemplates = $event->custom_field_templates;
+
+            if (!empty($this->attributes['data']['custom_fields'])) {
+                $requestCustomFieldTemplates = $this->attributes['data']['custom_fields'];
+
+                foreach ($requestCustomFieldTemplates as $field => $requestCustomFieldTemplate) {
+                    if (isset($customFieldTemplates[$field])) {
+                        $customFieldTemplates[$field] = $requestCustomFieldTemplate;
+                    }
+                }
+
+                $event->update([
+                    'custom_field_templates' => $customFieldTemplates
+                ]);
             }
 
             return [
                 'id'            => $event->id,
                 'template'      => $event->getFieldTemplate(),
-                'main_fields'   => !empty($event->main_field_templates) ? $event->main_field_templates : $event->buildDefaultMainFieldTemplate(),
+                'main_fields'   => $event->main_field_templates,
                 'custom_fields' => $event->custom_field_templates
-            ]; */
+            ];
         }
 
-        return null;
+        return [];
     }
 }

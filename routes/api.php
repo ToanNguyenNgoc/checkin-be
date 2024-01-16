@@ -59,7 +59,7 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::delete('/event/delete/{id}', [EventController::class, 'remove'])->middleware('permission:event:delete');
     /* FIELDS */
     Route::get('/event/{id}/fields', [EventController::class, 'getFieldTemplate'])->middleware('permission:event:config');
-    Route::post('/event/{id}/field/update', [EventController::class, 'updateFieldTemplate'])->middleware('permission:event:config');
+    Route::post('/event/field/update', [EventController::class, 'updateFieldTemplate'])->middleware('permission:event:config');
 
     /* COUNTRY */
     Route::get('/countries', [CountryController::class, 'index']);

@@ -168,7 +168,7 @@ class Event extends BaseModel
         return self::getFonts()[$fontKey];
     }
 
-    public function getFonts()
+    public static function getFonts()
     {
         return [
             'ROBOTO' => [
@@ -204,7 +204,7 @@ class Event extends BaseModel
         ];
     }
 
-    public function fonts()
+    public static function fonts()
     {
         $fonts = [];
         $defaultFonts = self::getFonts();
@@ -218,7 +218,7 @@ class Event extends BaseModel
 
     /* FUNCTIONS */
 
-    public function getAttributeDetailTemplate()
+    public static function getAttributeDetailTemplate()
     {
         return [
             "show"      => [
@@ -280,7 +280,6 @@ class Event extends BaseModel
         $template = [
             "field"         => [
                 "type"      => "text",
-                "rule"      => "readonly",
             ],
             "desc"          => [
                 "type"      => "text"
@@ -306,19 +305,17 @@ class Event extends BaseModel
         return $template;
     }
 
-    public function buildDefaultMainFieldTemplate()
+    public static function buildDefaultMainFieldTemplate()
     {
-        $order = 1;
 
-        foreach ($this->getAttributeDetailTemplate() as $attr => $config) {
+        foreach (self::getAttributeDetailTemplate() as $attr => $config) {
             $defaultDetailAttributes[$attr] = $config['default'];
         }
 
-        foreach ($this->getMainFields() as $field => $desc) {
-            $mainFieldTemplate[$order] = [
+        foreach (self::getMainFields() as $field => $desc) {
+            $mainFieldTemplate[$field] = [
                 "field"         => $field,
                 "desc"          => $desc,
-                "order"         => $order,
                 "is_main"       => true,
                 "attributes"    => [
                     "desktop"   => $defaultDetailAttributes,
@@ -326,8 +323,6 @@ class Event extends BaseModel
                     "tablet"    => $defaultDetailAttributes,
                 ],
             ];
-
-            $order++;
         }
 
         return $mainFieldTemplate;
