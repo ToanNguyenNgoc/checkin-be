@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\TestController;
@@ -23,11 +24,20 @@ use App\Http\Controllers\Api\PermissionController;
 */
 
 Route::middleware(['guest'])->group(function() {
+    Route::get('/', function() {
+        $version = App::version();
+        return response()->json(['version' => $version]);
+    });
+
     Route::get('/connect', function () {
         echo "Connected!";
     });
 
     Route::post('/login', [AuthController::class, 'login']);
+});
+
+Route::get('/connect', function () {
+    echo "Connected!";
 });
 
 Route::middleware('role:admin')->get('/admin', function () {
