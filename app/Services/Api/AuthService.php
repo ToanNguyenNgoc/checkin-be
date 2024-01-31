@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services\Api;
 
 use App\Repositories\User\UserRepository;
@@ -9,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 use App\Services\BaseService;
+use Illuminate\Support\Facades\Hash;
+use Laravel\Prompts\Output\ConsoleOutput;
 
 class AuthService extends BaseService
 {
@@ -23,12 +26,13 @@ class AuthService extends BaseService
 
     public function authenticate()
     {
+
         if (!$this->ensureIsNotRateLimited((object)$this->attributes)) {
             return [
                 'auth'  => false,
                 'msg'   => trans('_auth.throttle', [
                     'seconds'   => $this->seconds,
-                    'minutes'   => ceil($this->seconds/$this->decaySeconds),
+                    'minutes'   => ceil($this->seconds / $this->decaySeconds),
                 ])
             ];
         }
@@ -84,9 +88,9 @@ class AuthService extends BaseService
         return false;
 
         throw ValidationException::withMessages([
-                'email'     => trans('_auth.throttle', [
+            'email'     => trans('_auth.throttle', [
                 'seconds'   => $this->seconds,
-                'minutes'   => ceil($this->seconds/$this->decaySeconds),
+                'minutes'   => ceil($this->seconds / $this->decaySeconds),
             ]),
         ])->status(Response::HTTP_TOO_MANY_REQUESTS);
     }
@@ -98,6 +102,6 @@ class AuthService extends BaseService
      */
     public function throttleKey()
     {
-        return Str::lower($this->attributes['email']).'|'.request()->ip();
+        return Str::lower($this->attributes['email']) . '|' . request()->ip();
     }
 }
